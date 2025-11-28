@@ -1,14 +1,37 @@
+import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 
-class HiveService {
-  var box = Hive.box('myBox');
+class HiveService extends GetxController {
+  Box? box;
+
+  RxBool firstTimeOnTheApp = false.obs;
+
+  @override
+  void onInit() {
+    initHive();
+    super.onInit();
+  }
 
   initHive() async {
-    Hive.init('myBox');
-    Hive.openBox('myBox');
+    final diretory = await getApplicationDocumentsDirectory();
 
-    print('===============');
+    Hive.init(diretory.path);
+    box = await Hive.openBox('myBox');
 
-    // final teste = box.put('teste123', 'value');
+    getPreferences();
+  }
+
+  getPreferences() async {
+    final firstApp = await box!.get('firstTimeOnTheApp');
+
+    if (firstApp != null) {
+      firstTimeOnTheApp.value = firstApp;
+    }
+  }
+
+  updateFirstTimeOnTheApp() {
+    box!.put('firstTimeOnTheApp', true);
+    firstTimeOnTheApp.value = true;
   }
 }

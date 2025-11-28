@@ -76,7 +76,10 @@ class ButtonsComponent extends StatelessWidget {
                 child: Center(
                   child: Text(
                     title,
-                    style: textStyle.titleLarge,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold
+                    ),
                   ),
                 ),
               ),

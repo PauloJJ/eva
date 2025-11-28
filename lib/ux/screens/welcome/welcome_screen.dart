@@ -2,9 +2,13 @@ import 'package:eva/services/hive_service.dart';
 import 'package:eva/utils/utils_general.dart';
 import 'package:eva/ux/components/buttons_component.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/utils.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({super.key});
+  WelcomeScreen({super.key});
+
+  final HiveService hiveService = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -12,12 +16,12 @@ class WelcomeScreen extends StatelessWidget {
       bottomSheet: Padding(
         padding: EdgeInsetsGeometry.symmetric(
           horizontal: 15,
-          vertical: 20,
+          vertical: 35,
         ),
         child: ButtonsComponent(
           title: 'Iniciar',
           function: () {
-            HiveService().initHive();
+            hiveService.updateFirstTimeOnTheApp();
           },
         ),
       ),

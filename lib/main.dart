@@ -1,6 +1,6 @@
-import 'package:eva/services/auth_app_service.dart';
 import 'package:eva/services/inject_dependency.dart';
 import 'package:eva/theme/app_theme.dart';
+import 'package:eva/ux/components/auth_or_app_component.dart';
 import 'package:eva/ux/screens/welcome/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.light,
-      home: WelcomeScreen(),
+      home: AuthOrAppComponent(),
     );
   }
 }
