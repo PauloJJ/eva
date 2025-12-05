@@ -1,9 +1,9 @@
 import 'package:eva/services/hive_service.dart';
+import 'package:eva/themes/app_text_style_theme.dart';
 import 'package:eva/utils/utils_general.dart';
 import 'package:eva/ux/components/buttons_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/utils.dart';
 
 class WelcomeScreen extends StatelessWidget {
   WelcomeScreen({super.key});
@@ -18,7 +18,7 @@ class WelcomeScreen extends StatelessWidget {
           horizontal: 15,
           vertical: 35,
         ),
-        child: ButtonsComponent(
+        child: ButtonsComponent.buttonFilled(
           title: 'Iniciar',
           function: () {
             hiveService.updateFirstTimeOnTheApp();
@@ -48,12 +48,12 @@ class WelcomeScreen extends StatelessWidget {
                 children: [
                   Text(
                     'Bem-vinda à Eva',
-                    style: textStyle.headlineLarge,
+                    style: AppTextStyleTheme.h1,
                   ),
                   SizedBox(height: 10),
                   Text(
                     'A Eva foi criada para apoiar mulheres que enfrentam situações de agressão, oferecendo recursos que cuidam de você quando mais precisa. 💜',
-                    style: textStyle.titleMedium,
+                    style: AppTextStyleTheme.subTitle,
                     textAlign: TextAlign.center,
                   ),
                 ],

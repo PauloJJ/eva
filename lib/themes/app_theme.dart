@@ -34,6 +34,7 @@ abstract final class AppTheme {
     ),
     // Component theme configurations for light mode.
     subThemesData: const FlexSubThemesData(
+      cardElevation: 0,
       interactionEffects: true,
       tintedDisabledControls: true,
       useM2StyleDividerInM3: true,
@@ -73,20 +74,6 @@ abstract final class AppTheme {
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
     cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true),
     fontFamily: GoogleFonts.poppins().fontFamily,
-    textTheme: TextTheme(
-      headlineLarge: TextStyle(
-        fontWeight: FontWeight.bold,
-      ),
-
-      // Texto dos buttões
-      titleLarge: TextStyle(
-        color: Colors.white,
-      ),
-
-      titleMedium: TextStyle(
-        color: Colors.grey.shade600,
-      ),
-    ),
   );
 
   // The FlexColorScheme defined dark mode ThemeData.

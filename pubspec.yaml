@@ -33,20 +33,23 @@ dependencies:
   hive: ^2.2.3
   get: ^4.7.3
   flex_color_scheme: ^8.3.1
-  pick_image: ^1.0.0
   flutter_animate: ^4.5.2
   path_provider: ^2.1.5
+  brasil_fields: ^1.18.0
+  image_picker: ^1.2.1
+  geolocator: ^14.0.2
+  flutter_map: ^8.2.2
 
   # Google
   google_fonts: ^6.3.2
 
   # Firebase
+  cloud_firestore: ^6.1.0
   firebase_core: ^4.2.1
   firebase_auth: ^6.1.2
   firebase_analytics: ^12.0.4
   firebase_crashlytics: ^5.0.5
   cloud_functions: ^6.0.4
-  cloud_firestore: ^6.1.0
   firebase_storage: ^13.0.4  
 
   # The following adds the Cupertino Icons font to your application.

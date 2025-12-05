@@ -5,7 +5,7 @@ import 'package:path_provider/path_provider.dart';
 class HiveService extends GetxController {
   Box? box;
 
-  RxBool firstTimeOnTheApp = false.obs;
+  Rx<bool?> firstTimeOnTheApp = Rx(null);
 
   @override
   void onInit() {
@@ -25,13 +25,15 @@ class HiveService extends GetxController {
   getPreferences() async {
     final firstApp = await box!.get('firstTimeOnTheApp');
 
-    if (firstApp != null) {
+    if (firstApp == null) {
+      firstTimeOnTheApp.value = true;
+    } else {
       firstTimeOnTheApp.value = firstApp;
     }
   }
 
   updateFirstTimeOnTheApp() {
-    box!.put('firstTimeOnTheApp', true);
-    firstTimeOnTheApp.value = true;
+    box!.put('firstTimeOnTheApp', false);
+    firstTimeOnTheApp.value = false;
   }
 }
