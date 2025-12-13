@@ -1,7 +1,7 @@
 import 'package:eva/models/user_model.dart';
 import 'package:eva/services/hive_service.dart';
 import 'package:eva/services/user_service.dart';
-import 'package:eva/ux/screens/home/home_screen.dart';
+import 'package:eva/ux/components/bottom_navigation_component.dart';
 import 'package:eva/ux/screens/loadings/loadings_screen.dart';
 import 'package:eva/ux/screens/login/login_screen.dart';
 import 'package:eva/ux/screens/tutorial/tutorial_screen.dart';
@@ -35,7 +35,7 @@ class AuthOrAppComponent extends StatelessWidget {
                   if (userModel.didTheTutorial == false) {
                     return TutorialScreen();
                   } else {
-                    return HomeScreen();
+                    return BottomNavigationComponent();
                   }
                 }
               },

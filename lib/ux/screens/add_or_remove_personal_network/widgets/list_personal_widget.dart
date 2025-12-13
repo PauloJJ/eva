@@ -39,7 +39,9 @@ class ListPersonalWidget extends StatelessWidget {
 
                 child: InkWell(
                   onLongPress: () {
-                    print('========== SEGURO ==========');
+                    addOrRemovePersonalNetworkService.deletePersonal(
+                      personalNetworkModel,
+                    );
                   },
                   child: ExpansionTile(
                     tilePadding: EdgeInsets.symmetric(
@@ -48,7 +50,6 @@ class ListPersonalWidget extends StatelessWidget {
                     subtitle: InkWell(
                       borderRadius: BorderRadius.circular(5),
                       onTap: () {
-                        print('==================');
                         addOrRemovePersonalNetworkService.editContact(
                           personalNetworkModel: personalNetworkModel,
                         );

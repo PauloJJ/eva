@@ -1,46 +1,70 @@
+import 'package:eva/models/user_model.dart';
+import 'package:eva/services/animations_controller_service.dart';
 import 'package:eva/services/user_service.dart';
-import 'package:eva/ux/components/buttons_component.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:eva/themes/app_text_style_theme.dart';
+import 'package:eva/utils/utils_general.dart';
+import 'package:eva/ux/components/support_network_component.dart';
+import 'package:eva/ux/screens/home/widgets/card_sos_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatelessWidget {
+  HomeScreen({super.key});
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  UserService userService = Get.find();
+  final UserService userService = Get.find();
+  final AnimationsControllerService animationsControllerService = Get.find();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Obx(
-        () {
-          return Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  userService.userModel.value == null
-                      ? ''
-                      : userService.userModel.value!.name,
-                ),
+    return Obx(
+      () {
+        UserModel userModel = userService.userModel.value!;
 
-                ButtonsComponent.buttonFilled(
-                  title: 'ola',
-                  function: () {
-                    FirebaseAuth.instance.signOut();
-                  },
+        return Scaffold(
+          appBar: AppBar(
+            toolbarHeight: 70,
+            title: ListTile(
+              contentPadding: EdgeInsets.all(0),
+              leading: CircleAvatar(
+                backgroundImage: NetworkImage(
+                  userModel.profileImage,
                 ),
-              ],
+                radius: 27,
+              ),
+              title: Text(
+                'Bem vinda',
+              ),
+              subtitle: Text(
+                userModel.name,
+                style: AppTextStyleTheme.title.apply(
+                  color: color.tertiary,
+                  fontSizeDelta: 3,
+                ),
+              ),
             ),
-          );
-        },
-      ),
+          ),
+          body: SafeArea(
+            child: Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 20),
+                    animationsControllerService.animationHomeFade(
+                      SupportNetworkComponent(),
+                    ),
+
+                    SizedBox(height: 30),
+
+                    CardSosWidget(),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

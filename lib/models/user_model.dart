@@ -15,6 +15,8 @@ class UserModel {
   late DateTime lastSosActivated;
   late DateTime accountCreationDate;
 
+  late GeoPoint? currentLocation;
+
   UserModel({
     required this.name,
     required this.cpf,
@@ -29,6 +31,8 @@ class UserModel {
 
     required this.lastSosActivated,
     required this.accountCreationDate,
+
+    required this.currentLocation,
   });
 
   UserModel.fromJson(Map<String, dynamic> json) {
@@ -45,6 +49,8 @@ class UserModel {
 
     lastSosActivated = (json['lastSosActivated'] as Timestamp).toDate();
     accountCreationDate = (json['accountCreationDate'] as Timestamp).toDate();
+
+    currentLocation = json['currentLocation'];
   }
 
   Map<String, dynamic> toJson() {
@@ -60,6 +66,7 @@ class UserModel {
       'didTheTutorial': didTheTutorial,
       'lastSosActivated': lastSosActivated,
       'accountCreationDate': accountCreationDate,
+      'currentLocation': currentLocation,
     };
   }
 }

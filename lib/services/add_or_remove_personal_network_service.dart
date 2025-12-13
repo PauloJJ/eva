@@ -1,12 +1,11 @@
 import 'dart:io';
 import 'dart:math';
-
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva/models/personal_network_model.dart';
-import 'package:eva/themes/app_text_style_theme.dart';
 import 'package:eva/utils/pick_image_util.dart';
 import 'package:eva/utils/utils_general.dart';
+import 'package:eva/ux/components/buttons_component.dart';
 import 'package:eva/ux/components/feedback_component.dart';
 import 'package:eva/ux/components/text_form_field_component.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,6 +24,8 @@ class AddOrRemovePersonalNetworkService extends GetxController {
 
   final formKey = GlobalKey<FormState>();
 
+  RxBool isLoadingAddPersonal = false.obs;
+
   addPersonalNetwork() async {
     if (!formKey.currentState!.validate()) {
       FeedbackComponent.definitiveError(
@@ -35,6 +36,8 @@ class AddOrRemovePersonalNetworkService extends GetxController {
     }
 
     try {
+      isLoadingAddPersonal.value = true;
+
       final userId = FirebaseAuth.instance.currentUser!.uid;
 
       PersonalNetworkModel personalNetworkModel = PersonalNetworkModel(
@@ -66,7 +69,7 @@ class AddOrRemovePersonalNetworkService extends GetxController {
       );
 
       await Future.delayed(Durations.extralong4);
-    } on FirebaseException catch (error) {
+    } on FirebaseException catch (_) {
       return FeedbackComponent.definitiveError(message: 'Tente novamente.');
     } finally {
       resetData();
@@ -112,7 +115,9 @@ class AddOrRemovePersonalNetworkService extends GetxController {
                           child: CircleAvatar(
                             radius: 65,
                             backgroundImage: isEdit == true
-                                ? (personalNetworkModel!.image == null
+                                ? (imagePath.value != null
+                                      ? FileImage(File(imagePath.value!.path))
+                                      : personalNetworkModel!.image == null
                                       ? null
                                       : NetworkImage(
                                           personalNetworkModel.image!,
@@ -194,23 +199,20 @@ class AddOrRemovePersonalNetworkService extends GetxController {
 
                         SizedBox(height: 20),
 
-                        OutlinedButton(
-                          onPressed: () {
-                            if (isEdit == true) {
-                              Get.back();
-                            } else {
-                              addPersonalNetwork();
-                            }
-                          },
-                          child: SizedBox(
-                            width: size.width,
-                            height: 50,
-                            child: Center(
-                              child: Text(
-                                'Adicionar',
-                                style: AppTextStyleTheme.title,
-                              ),
-                            ),
+                        Obx(
+                          () => ButtonsComponent.buttonFilled(
+                            isLoading: isLoadingAddPersonal.value,
+                            function: () {
+                              if (isEdit == true) {
+                                if (!formKey.currentState!.validate()) {
+                                  return;
+                                }
+                                Get.back();
+                              } else {
+                                addPersonalNetwork();
+                              }
+                            },
+                            title: 'Adicionar',
                           ),
                         ),
                       ],
@@ -228,7 +230,7 @@ class AddOrRemovePersonalNetworkService extends GetxController {
   Future<String> uploadImage() async {
     String imageName = Random().nextDouble().toString();
 
-    final ref = FirebaseStorage.instance.ref().child('images/$imageName.jpg');
+    final ref = FirebaseStorage.instance.ref().child('imagesPersonalNetwork/$imageName.jpg');
 
     await ref.putFile(File(imagePath.value!.path));
 
@@ -258,7 +260,7 @@ class AddOrRemovePersonalNetworkService extends GetxController {
       String? image;
 
       if (imagePath.value != null) {
-        image = await getImage();
+        image = await uploadImage();
       }
 
       PersonalNetworkModel newPersonalNetwork = PersonalNetworkModel(
@@ -268,13 +270,23 @@ class AddOrRemovePersonalNetworkService extends GetxController {
         image: image,
       );
 
-      FirebaseFirestore.instance
-          .collection('users')
-          .doc(userId)
-          .collection('personalNetwork')
-          .doc(personalNetworkModel.docId)
-          .update(newPersonalNetwork.toJson());
+      try {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userId)
+            .collection('personalNetwork')
+            .doc(personalNetworkModel.docId)
+            .update(newPersonalNetwork.toJson());
+
+        FeedbackComponent.successfulAction(
+          message: 'Dados de contato salvos com sucesso',
+        );
+      } on FirebaseException {
+        FeedbackComponent.definitiveError(message: 'Tente novamente');
+      }
     }
+
+    resetData();
   }
 
   resetData() {
@@ -282,5 +294,33 @@ class AddOrRemovePersonalNetworkService extends GetxController {
     phoneNumberController.clear();
     emailController.clear();
     imagePath.value = null;
+    isLoadingAddPersonal.value = false;
+  }
+
+  deletePersonal(PersonalNetworkModel personalNetworkModel) async {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+
+    FeedbackComponent.confirmationAction(
+      content: 'Esta ação é irreversível. Tem certeza de que deseja continuar?',
+      function: () async {
+        try {
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(userId)
+              .collection('personalNetwork')
+              .doc(personalNetworkModel.docId)
+              .delete();
+
+          Get.back();
+
+          FeedbackComponent.successfulAction(
+            message:
+                '${personalNetworkModel.name} foi removido(a) com sucesso da sua rede.',
+          );
+        } catch (_) {
+          FeedbackComponent.definitiveError(message: 'Tente novamente');
+        }
+      },
+    );
   }
 }

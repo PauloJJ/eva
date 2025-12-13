@@ -1,9 +1,11 @@
 import 'dart:math';
-
+import 'package:app_settings/app_settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva/models/personal_network_model.dart';
 import 'package:eva/models/user_model.dart';
+import 'package:eva/ux/components/feedback_component.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 
 class UserService extends GetxController {
@@ -13,6 +15,7 @@ class UserService extends GetxController {
   @override
   void onInit() {
     verifyingUserOnline();
+
     super.onInit();
   }
 
@@ -67,5 +70,67 @@ class UserService extends GetxController {
 
       yield list;
     }
+  }
+
+  Future<bool> updatingLocation() async {
+    bool updatedLocation = false;
+
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
+    if (serviceEnabled == false) {
+      FeedbackComponent.definitiveError(
+        message: 'Ative a localização e permita que a Eva te proteja melhor.',
+        durationSeconds: 5,
+      );
+
+      return updatedLocation;
+    }
+
+    LocationPermission locationPermission =
+        await Geolocator.requestPermission();
+
+    if (locationPermission == LocationPermission.denied) {
+      FeedbackComponent.definitiveError(
+        message: 'Precisamos da sua permissão para continuar com segurança',
+        durationSeconds: 5,
+      );
+    }
+
+    if (locationPermission == LocationPermission.deniedForever) {
+      await FeedbackComponent.alertConfirmation(
+        content:
+            'Precisamos que você acesse as configurações do app e permita manualmente o acesso da Eva à sua localização.',
+        function: () {
+          AppSettings.openAppSettings(type: AppSettingsType.settings);
+          Get.back();
+        },
+      );
+    }
+
+    if (locationPermission == LocationPermission.always ||
+        locationPermission == LocationPermission.whileInUse) {
+      final userId = FirebaseAuth.instance.currentUser!.uid;
+
+      final currentLocation = await Geolocator.getCurrentPosition();
+
+      try {
+        await FirebaseFirestore.instance.collection('users').doc(userId).update(
+          {
+            'currentLocation': GeoPoint(
+              currentLocation.latitude,
+              currentLocation.longitude,
+            ),
+          },
+        );
+
+        updatedLocation = true;
+      } catch (_) {
+        FeedbackComponent.definitiveError(
+          message: 'A localização não pôde ser atualizada. Tente novamente.',
+        );
+      }
+    }
+
+    return updatedLocation;
   }
 }

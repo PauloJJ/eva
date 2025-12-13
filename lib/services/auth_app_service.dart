@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva/models/user_model.dart';
+import 'package:eva/utils/upload_images_util.dart';
 import 'package:eva/ux/components/feedback_component.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -41,6 +43,21 @@ class AuthAppService extends GetxController {
     try {
       isLoadingRegister.value = true;
 
+      String? imageUrl = await uploadImage(
+        folderName: 'imagesPersonalNetwork',
+        fileImage: File(image.value!.path),
+      );
+
+      if (imageUrl == null) {
+        FeedbackComponent.definitiveError(
+          message: 'Algo deu errado, Tente novamente.',
+        );
+
+        return;
+      }
+
+      userModel.profileImage = imageUrl;
+
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: userModel.email,
         password: password,
@@ -51,9 +68,7 @@ class AuthAppService extends GetxController {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(userId)
-          .set(
-            userModel.toJson(),
-          );
+          .set(userModel.toJson());
 
       Get.back();
       viewPassword.value = true;

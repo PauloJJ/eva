@@ -21,8 +21,13 @@ class AppTextStyleTheme {
     fontWeight: FontWeight.bold,
   );
 
+  static TextStyle get title02 => TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w900,
+  );
+
   static TextStyle get subTitle => TextStyle(
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: FontWeight.w400,
     color: Colors.grey.shade700,
   );

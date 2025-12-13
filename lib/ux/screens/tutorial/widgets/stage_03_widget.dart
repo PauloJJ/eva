@@ -1,8 +1,9 @@
 import 'package:eva/themes/app_text_style_theme.dart';
+import 'package:eva/utils/utils_general.dart';
 import 'package:flutter/material.dart';
 
-class Stage01Widget extends StatelessWidget {
-  const Stage01Widget({super.key});
+class Stage03Widget extends StatelessWidget {
+  const Stage03Widget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,19 @@ class Stage01Widget extends StatelessWidget {
             bottomLeft: Radius.circular(20),
             bottomRight: Radius.circular(20),
           ),
-          child: Image.asset('assets/images/tutorial_01.png'),
+          child: Container(
+            width: size.width,
+            color: color.secondary,
+            child: Column(
+              children: [
+                SizedBox(height: 30),
+                Image.asset(
+                  'assets/images/tutorial_03.png',
+                  height: 350,
+                ),
+              ],
+            ),
+          ),
         ),
 
         SizedBox(height: 30),
@@ -23,13 +36,13 @@ class Stage01Widget extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                'Cadastrar Rede',
+                'Fadas Madrinhas',
                 style: AppTextStyleTheme.h1,
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 10),
               Text(
-                'Crie sua rede de confiança, pessoas que o Eva avisará imediatamente se você estiver em perigo. Você nunca estará sozinha. 💜',
+                'Na Eva, você pode apoiar outras mulheres se cadastrando como voluntária e deixando seu contato disponível para quem precisar falar com você.',
                 textAlign: TextAlign.center,
                 style: AppTextStyleTheme.subTitle,
               ),

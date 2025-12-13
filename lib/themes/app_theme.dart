@@ -9,7 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 /// Use same major flex_color_scheme package version. If you use a
 /// lower minor version, some properties may not be supported.
 /// In that case, remove them after copying this theme to your
-/// app or upgrade the package to version 8.3.1.
+/// app or upgrade the package to version 8.4.0.
 ///
 /// Use it in a [MaterialApp] like this:
 ///
@@ -23,10 +23,10 @@ abstract final class AppTheme {
     // User defined custom colors made with FlexSchemeColor() API.
     colors: const FlexSchemeColor(
       primary: Color(0xFFB07CCE),
-      primaryContainer: Color(0xFFA57EBC),
-      secondary: Color(0xFFFAF5FF),
+      primaryContainer: Color(0xFFB07CCE),
+      secondary: Color(0xFFF5EBFF),
       secondaryContainer: Color(0xFFB07CCE),
-      tertiary: Color(0xFFC0A7CF),
+      tertiary: Color(0xFFA57EBC),
       tertiaryContainer: Color(0xFFC0A7CF),
       appBarColor: Color(0xFFB07CCE),
       error: Color(0xFFBA1A1A),
@@ -34,7 +34,6 @@ abstract final class AppTheme {
     ),
     // Component theme configurations for light mode.
     subThemesData: const FlexSubThemesData(
-      cardElevation: 0,
       interactionEffects: true,
       tintedDisabledControls: true,
       useM2StyleDividerInM3: true,
@@ -73,7 +72,7 @@ abstract final class AppTheme {
     // Direct ThemeData properties.
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
     cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true),
-    fontFamily: GoogleFonts.poppins().fontFamily,
+    textTheme: GoogleFonts.getTextTheme('Poppins'),
   );
 
   // The FlexColorScheme defined dark mode ThemeData.
@@ -85,10 +84,10 @@ abstract final class AppTheme {
       primaryLightRef: Color(0xFFB07CCE), // The color of light mode primary
       secondary: Color(0xFFFFCEED),
       secondaryContainer: Color(0xFFFF4191),
-      secondaryLightRef: Color(0xFFFAF5FF), // The color of light mode secondary
+      secondaryLightRef: Color(0xFFF5EBFF), // The color of light mode secondary
       tertiary: Color(0xFFE792FF),
       tertiaryContainer: Color(0xFFFFF8F8),
-      tertiaryLightRef: Color(0xFFC0A7CF), // The color of light mode tertiary
+      tertiaryLightRef: Color(0xFFA57EBC), // The color of light mode tertiary
       appBarColor: Color(0xFFB07CCE),
       error: Color(0xFFFFB4AB),
       errorContainer: Color(0xFF93000A),

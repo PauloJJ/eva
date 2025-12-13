@@ -1,3 +1,4 @@
+import 'package:eva/ux/components/buttons_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -56,6 +57,66 @@ class FeedbackComponent {
           style: TextStyle(color: Colors.white),
         ),
       ),
+    );
+  }
+
+  static confirmationAction({
+    required String content,
+    required Function() function,
+  }) {
+    return showDialog(
+      context: Get.context!,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Tem certeza ?'),
+          content: Text(content),
+          actions: [
+            ButtonsComponent.buttonTextButon(
+              title: 'Voltar',
+              function: () {
+                Get.back();
+              },
+            ),
+
+            ButtonsComponent.buttonTextButon(
+              title: 'Continuar',
+              function: () {
+                function();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  static alertConfirmation({
+    required String content,
+    required Function() function,
+  }) {
+    return showDialog(
+      context: Get.context!,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Alerta'),
+          content: Text(content),
+          actions: [
+            ButtonsComponent.buttonTextButon(
+              title: 'Voltar',
+              function: () {
+                Get.back();
+              },
+            ),
+
+            ButtonsComponent.buttonTextButon(
+              title: 'Continuar',
+              function: () {
+                function();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

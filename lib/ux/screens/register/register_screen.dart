@@ -227,6 +227,7 @@ class RegisterScreen extends StatelessWidget {
                                         lastSosActivated: DateTime.timestamp(),
                                         accountCreationDate:
                                             DateTime.timestamp(),
+                                        currentLocation: null,
                                       ),
                                     );
                                   },
