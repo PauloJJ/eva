@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva/models/user_model.dart';
+import 'package:eva/services/files_service.dart';
 import 'package:eva/utils/upload_images_util.dart';
 import 'package:eva/ux/components/feedback_component.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,6 +21,8 @@ class AuthAppService extends GetxController {
   final formKeyResetPassword = GlobalKey<FormState>();
 
   RxBool viewPassword = true.obs;
+
+  RxString selectedCountry = '+55'.obs;
 
   toggleViewPassword() {
     viewPassword.value = !viewPassword.value;
@@ -157,5 +160,10 @@ class AuthAppService extends GetxController {
     } finally {
       isLoadingResetPassword.value = false;
     }
+  }
+
+  logout() {
+    FirebaseAuth.instance.signOut();
+    Get.delete<FilesService>();
   }
 }

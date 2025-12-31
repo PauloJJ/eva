@@ -10,9 +10,6 @@ class ListPersonalWidget extends StatelessWidget {
     super.key,
   });
 
-  final AddOrRemovePersonalNetworkService addOrRemovePersonalNetworkService =
-      Get.find();
-
   final UserService userService = Get.find();
 
   @override
@@ -39,7 +36,7 @@ class ListPersonalWidget extends StatelessWidget {
 
                 child: InkWell(
                   onLongPress: () {
-                    addOrRemovePersonalNetworkService.deletePersonal(
+                    AddOrRemovePersonalNetworkService().deletePersonal(
                       personalNetworkModel,
                     );
                   },
@@ -50,7 +47,7 @@ class ListPersonalWidget extends StatelessWidget {
                     subtitle: InkWell(
                       borderRadius: BorderRadius.circular(5),
                       onTap: () {
-                        addOrRemovePersonalNetworkService.editContact(
+                        AddOrRemovePersonalNetworkService().showEditContact(
                           personalNetworkModel: personalNetworkModel,
                         );
                       },

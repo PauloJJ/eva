@@ -1,12 +1,18 @@
+import 'dart:io';
 import 'dart:math';
 import 'package:app_settings/app_settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva/models/personal_network_model.dart';
 import 'package:eva/models/user_model.dart';
+import 'package:eva/utils/pick_image_util.dart';
 import 'package:eva/ux/components/feedback_component.dart';
+import 'package:eva/ux/components/show_loading_component.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UserService extends GetxController {
   Rx<UserModel?> userModel = Rx(null);
@@ -132,5 +138,64 @@ class UserService extends GetxController {
     }
 
     return updatedLocation;
+  }
+
+  updateDatas({
+    required String name,
+    required String phoneNumber,
+    required String selectedCountry,
+    required GlobalKey<FormState> formKey,
+  }) async {
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+
+    showLoadingComponent();
+
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+
+    try {
+      await FirebaseFirestore.instance.collection('users').doc(userId).update({
+        'name': name,
+        'phoneNumber': phoneNumber,
+        'countryCode': selectedCountry,
+      });
+
+      Get.back();
+      Get.back();
+
+      FeedbackComponent.successfulAction(
+        message: 'Informações atualizadas com sucesso.',
+      );
+    } catch (_) {
+      Get.back();
+
+      FeedbackComponent.definitiveError(
+        message: 'Erro ao atualizar as informações. Tente novamente.',
+      );
+    }
+  }
+
+  updatePhoto() async {
+    showLoadingComponent();
+
+    XFile? image = await pickImageUtil(cameraGrip: false);
+
+    if (image != null) {
+      final path = 'imagesPersonalNetwork/${Random().nextDouble()}';
+
+      final ref = FirebaseStorage.instance.ref().child(path);
+
+      await ref.putFile(File(image.path));
+      final url = await ref.getDownloadURL();
+
+      final userId = FirebaseAuth.instance.currentUser!.uid;
+
+      await FirebaseFirestore.instance.collection('users').doc(userId).update({
+        'profileImage': url,
+      });
+
+      Get.back();
+    }
   }
 }

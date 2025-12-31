@@ -21,6 +21,26 @@ class FeedbackComponent {
     );
   }
 
+  static errorPleaseTryAgain({
+    required String message,
+    required Function() function,
+  }) {
+    Get.showSnackbar(
+      GetSnackBar(
+        title: 'Algo deu errado',
+        message: message,
+        icon: Icon(Icons.error, color: Colors.white),
+        backgroundColor: Colors.red,
+        mainButton: CloseButton(
+          color: Colors.white,
+          onPressed: () {
+            function();
+          },
+        ),
+      ),
+    );
+  }
+
   static successfulAction({required String message, int? durationSeconds}) {
     Get.snackbar(
       '',

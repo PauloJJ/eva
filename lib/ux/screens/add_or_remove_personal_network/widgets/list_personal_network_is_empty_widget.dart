@@ -2,13 +2,9 @@ import 'package:eva/services/add_or_remove_personal_network_service.dart';
 import 'package:eva/themes/app_text_style_theme.dart';
 import 'package:eva/utils/utils_general.dart';
 import 'package:flutter/material.dart';
-import 'package:get/instance_manager.dart';
 
 class ListPersonalNetworkIsEmptyWidget extends StatelessWidget {
-  ListPersonalNetworkIsEmptyWidget({super.key});
-
-  final AddOrRemovePersonalNetworkService addOrRemovePersonalNetworkService =
-      Get.find();
+  const ListPersonalNetworkIsEmptyWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +23,7 @@ class ListPersonalNetworkIsEmptyWidget extends StatelessWidget {
         Center(
           child: OutlinedButton(
             onPressed: () {
-              addOrRemovePersonalNetworkService.showBottomAddOrEditPersonal(
+              AddOrRemovePersonalNetworkService().showBottomAddOrEditPersonal(
                 isEdit: false,
               );
             },

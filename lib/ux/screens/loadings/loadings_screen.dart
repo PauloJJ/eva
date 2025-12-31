@@ -1,36 +1,21 @@
-import 'package:eva/utils/utils_general.dart';
+import 'package:eva/ux/screens/loadings/widgets/loading_01_widget.dart';
+import 'package:eva/ux/screens/loadings/widgets/loading_02_widget.dart';
 import 'package:flutter/material.dart';
 
 class LoadingsScreen extends StatelessWidget {
-  const LoadingsScreen({super.key});
+  final int loadingIndex;
+
+  const LoadingsScreen({
+    super.key,
+    required this.loadingIndex,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/images/logo_transparente.png',
-              height: 290,
-            ),
-
-            SizedBox(
-              height: 60,
-            ),
-
-            CircularProgressIndicator.adaptive(),
-            SizedBox(height: 15),
-            Text(
-              'Carregando...',
-              style: textStyle.titleMedium,
-            ),
-            SizedBox(height: 90),
-          ],
-        ),
-      ),
-    );
+    if (loadingIndex == 1) {
+      return Loading01Widget();
+    } else {
+      return Loading02Widget();
+    }
   }
 }

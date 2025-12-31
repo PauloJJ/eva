@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class TextFormFieldComponent extends StatelessWidget {
-  final String labelText;
+  final String? labelText;
   final IconData icon;
   final bool? obscureText;
   final Widget? suffixIcon;
@@ -11,6 +11,8 @@ class TextFormFieldComponent extends StatelessWidget {
   final String? Function(String?)? validator;
   final TextInputType? keyboardType;
   final TextEditingController? textEditingController;
+  final bool? enabled;
+  final String? hint;
 
   const TextFormFieldComponent({
     super.key,
@@ -22,23 +24,27 @@ class TextFormFieldComponent extends StatelessWidget {
     this.validator,
     this.keyboardType,
     this.textEditingController,
+    this.enabled,
+    this.hint,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: enabled,
       controller: textEditingController,
       obscureText: obscureText ?? false,
       inputFormatters: inputFormatters,
       keyboardType: keyboardType,
       decoration: InputDecoration(
+        hint: Text(hint ?? ''),
         prefixIcon: Icon(
           icon,
           color: color.primaryContainer,
         ),
         suffixIcon: suffixIcon,
         label: Text(
-          labelText,
+          labelText ?? '',
         ),
       ),
       validator: (value) {

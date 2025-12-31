@@ -13,10 +13,12 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomSheet: Padding(
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterFloat,
+      floatingActionButton: Padding(
         padding: EdgeInsetsGeometry.symmetric(
           horizontal: 15,
-          vertical: 35,
+          vertical: 20,
         ),
         child: ButtonsComponent.buttonFilled(
           title: 'Iniciar',

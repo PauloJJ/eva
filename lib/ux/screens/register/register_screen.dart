@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:eva/models/user_model.dart';
 import 'package:eva/services/auth_app_service.dart';
 import 'package:eva/utils/pick_image_util.dart';
@@ -124,20 +125,38 @@ class RegisterScreen extends StatelessWidget {
 
                       SizedBox(height: 20),
 
-                      TextFormFieldComponent(
-                        textEditingController: phoneNumberController,
-                        labelText: 'Telefone (WhatsApp)',
-                        icon: Icons.phone_enabled_outlined,
-                        obscureText: false,
+                      TextFormField(
+                        controller: phoneNumberController,
+                        keyboardType: TextInputType.visiblePassword,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
                           TelefoneInputFormatter(),
                         ],
+
+                        decoration: InputDecoration(
+                          prefixIcon: CountryCodePicker(
+                            headerText: 'Seletor de país',
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: color.onSecondary,
+                              fontSize: 16,
+                            ),
+                            initialSelection:
+                                authAppService.selectedCountry.value,
+
+                            onChanged: (value) {
+                              authAppService.selectedCountry.value =
+                                  value.dialCode!;
+                            },
+                          ),
+
+                          label: Text(
+                            'Telefone (WhatsApp)',
+                          ),
+                        ),
                         validator: (value) {
-                          if (value == null ||
-                              value.isEmpty ||
-                              value.length < 14) {
-                            return 'Telefone inválido';
+                          if (value == null || value.length < 14) {
+                            return 'Senha inválida';
                           }
 
                           return null;
@@ -220,7 +239,11 @@ class RegisterScreen extends StatelessWidget {
                                         phoneNumber: phoneNumberController.text,
                                         email: emailController.text,
                                         pushToken: null,
-                                        profileImage: 'profileImage',
+                                        profileImage: '',
+                                        countryCode: authAppService
+                                            .selectedCountry
+                                            .value,
+                                        professionFairyGodmonther: null,
                                         volunteerFairyGodmonther: false,
                                         accountDeleted: false,
                                         didTheTutorial: false,

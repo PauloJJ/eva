@@ -11,9 +11,6 @@ import 'package:get/get.dart';
 class AddOrRemovePersonalNetworkScreen extends StatelessWidget {
   AddOrRemovePersonalNetworkScreen({super.key});
 
-  final AddOrRemovePersonalNetworkService addOrRemovePersonalNetworkService =
-      Get.put(AddOrRemovePersonalNetworkService());
-
   final UserService userService = Get.find();
 
   @override
@@ -30,7 +27,9 @@ class AddOrRemovePersonalNetworkScreen extends StatelessWidget {
             actions: [
               IconButton(
                 onPressed: () {
-                  addOrRemovePersonalNetworkService.showBottomAddOrEditPersonal(
+          
+
+                  AddOrRemovePersonalNetworkService().showBottomAddOrEditPersonal(
                     isEdit: false,
                   );
                 },

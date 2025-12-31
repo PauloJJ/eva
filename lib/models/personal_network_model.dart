@@ -1,12 +1,10 @@
-import 'dart:math';
-
 class PersonalNetworkModel {
   late String? docId;
   late String name;
   late String phoneNumber;
-  late String? email;
+  late String email;
   late String? image;
-  late String idDismissible = Random().nextDouble().toString();
+  late String countryCode;
 
   PersonalNetworkModel({
     this.docId,
@@ -14,6 +12,7 @@ class PersonalNetworkModel {
     required this.phoneNumber,
     required this.email,
     required this.image,
+    required this.countryCode,
   });
 
   PersonalNetworkModel.fromJson(Map<String, dynamic> json) {
@@ -22,6 +21,7 @@ class PersonalNetworkModel {
     phoneNumber = json['phoneNumber'];
     email = json['email'];
     image = json['image'];
+    countryCode = json['countryCode'];
   }
 
   Map<String, dynamic> toJson() {
@@ -30,6 +30,7 @@ class PersonalNetworkModel {
       'phoneNumber': phoneNumber,
       'email': email,
       'image': image,
+      'countryCode': countryCode,
     };
   }
 }

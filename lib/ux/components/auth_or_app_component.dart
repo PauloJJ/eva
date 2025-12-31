@@ -20,29 +20,24 @@ class AuthOrAppComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       bool? firstTimeOnTheApp = hiveService.firstTimeOnTheApp.value;
+      UserModel? userModel = userService.userModel.value;
 
       return StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return Obx(
-              () {
-                UserModel? userModel = userService.userModel.value;
-
-                if (userModel == null) {
-                  return LoadingsScreen();
-                } else {
-                  if (userModel.didTheTutorial == false) {
-                    return TutorialScreen();
-                  } else {
-                    return BottomNavigationComponent();
-                  }
-                }
-              },
-            );
+          if (hiveService.box.value == null || firstTimeOnTheApp == null) {
+            return LoadingsScreen(loadingIndex: 1);
           } else {
-            if (firstTimeOnTheApp == null) {
-              return LoadingsScreen();
+            if (snapshot.hasData) {
+              if (userModel == null) {
+                return LoadingsScreen(loadingIndex: 1);
+              } else {
+                if (userModel.didTheTutorial == false) {
+                  return TutorialScreen();
+                } else {
+                  return BottomNavigationComponent();
+                }
+              }
             } else {
               if (firstTimeOnTheApp == false) {
                 return LoginScreen();

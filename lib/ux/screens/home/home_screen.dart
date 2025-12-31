@@ -1,5 +1,6 @@
 import 'package:eva/models/user_model.dart';
 import 'package:eva/services/animations_controller_service.dart';
+import 'package:eva/services/auth_app_service.dart';
 import 'package:eva/services/user_service.dart';
 import 'package:eva/themes/app_text_style_theme.dart';
 import 'package:eva/utils/utils_general.dart';
@@ -22,6 +23,15 @@ class HomeScreen extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
+            actions: [
+              InkWell(
+                onTap: () {
+                  AuthAppService authAppService = Get.find();
+                  authAppService.logout();
+                },
+                child: Text('teste'),
+              ),
+            ],
             toolbarHeight: 70,
             title: ListTile(
               contentPadding: EdgeInsets.all(0),

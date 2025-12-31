@@ -1,5 +1,7 @@
+import 'package:eva/services/actions_service.dart';
 import 'package:eva/services/actions_sos_service.dart';
 import 'package:eva/themes/app_text_style_theme.dart';
+import 'package:eva/utils/utils_general.dart';
 import 'package:eva/ux/components/support_network_component.dart';
 import 'package:eva/ux/screens/actions_sos/widgets/available_cards_widget.dart';
 import 'package:eva/ux/screens/actions_sos/widgets/card_is_activated_widget.dart';
@@ -11,9 +13,36 @@ class ActionsSosScreen extends StatelessWidget {
   ActionsSosScreen({super.key});
 
   final ActionsSosService actionsSosService = Get.put(ActionsSosService());
+  final ActionsService actionsService = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: InkWell(
+        onTap: () {
+          Get.back();
+        },
+        child: Container(
+          width: size.width,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: color.primary
+          ),
+          margin: EdgeInsets.symmetric(horizontal: 20),
+          child: SizedBox(
+            height: 55,
+            child: Center(
+              child: Text(
+                'Desativar SOS',
+                style: AppTextStyleTheme.title02.apply(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
       appBar: AppBar(
         title: Text('SOS'),
       ),
@@ -27,7 +56,7 @@ class ActionsSosScreen extends StatelessWidget {
 
               SupportNetworkComponent(),
 
-              SizedBox(height: 50),
+              SizedBox(height: 40),
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -62,7 +91,9 @@ class ActionsSosScreen extends StatelessWidget {
                     AvailableCardsWidget(
                       iconData: Icons.local_police_outlined,
                       title: 'Ligar para 190',
-                      function: () {},
+                      function: () {
+                        actionsService.dial190();
+                      },
                     ),
 
                     SizedBox(height: 15),
@@ -70,7 +101,9 @@ class ActionsSosScreen extends StatelessWidget {
                     AvailableCardsWidget(
                       iconData: Icons.location_on_outlined,
                       title: 'Enviar Localização WhatsApp',
-                      function: () {},
+                      function: () {
+                        actionsService.sendLocalizationWhatsapp();
+                      },
                     ),
 
                     SizedBox(height: 15),
@@ -78,7 +111,9 @@ class ActionsSosScreen extends StatelessWidget {
                     AvailableCardsWidget(
                       iconData: Icons.add_a_photo_outlined,
                       title: 'Fotografar',
-                      function: () {},
+                      function: () {
+                        actionsService.pickImageAndSave();
+                      },
                     ),
 
                     SizedBox(height: 15),
@@ -86,7 +121,9 @@ class ActionsSosScreen extends StatelessWidget {
                     AvailableCardsWidget(
                       iconData: Icons.video_camera_back_outlined,
                       title: 'Gravar Video',
-                      function: () {},
+                      function: () {
+                        actionsService.pickVideoAndSave();
+                      },
                     ),
 
                     SizedBox(height: 15),
@@ -94,20 +131,17 @@ class ActionsSosScreen extends StatelessWidget {
                     AvailableCardsWidget(
                       iconData: Icons.multitrack_audio_rounded,
                       title: 'Gravar Áudio',
-                      function: () {},
+                      function: () {
+                        actionsService.recordAudio();
+                      },
                     ),
 
                     SizedBox(height: 50),
-
-                    ElevatedButton(
-                      onPressed: () {
-                        actionsSosService.sendSms();
-                      },
-                      child: Text('data'),
-                    ),
                   ],
                 ),
               ),
+
+              SizedBox(height: 50),
             ],
           ),
         ),

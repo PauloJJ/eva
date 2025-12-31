@@ -1,4 +1,5 @@
 import 'package:eva/firebase_options.dart';
+import 'package:eva/services/actions_service.dart';
 import 'package:eva/services/animations_controller_service.dart';
 import 'package:eva/services/auth_app_service.dart';
 import 'package:eva/services/hive_service.dart';
@@ -22,5 +23,6 @@ class InjectDependency {
     Get.put(AuthAppService());
     Get.put(UserService());
     Get.put(AnimationsControllerService());
+    Get.put(ActionsService());
   }
 }

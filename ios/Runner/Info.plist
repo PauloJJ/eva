@@ -2,12 +2,26 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 	<dict>
+		<key>NSAppTransportSecurity</key>
+		<dict>
+			<key>NSAllowsArbitraryLoads</key>
+			<true />
+		</dict>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>A Eva precisa de acesso ao seu microfone para que você possa gravar e salvar provas
+			com segurança.</string>
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+			<string>sms</string>
+			<string>tel</string>
+		</array>
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string>Precisamos do acesso à sua localização para que o app funcione corretamente e possa
 			te ajudar quando for necessário.</string>
 		<key>UIBackgroundModes</key>
 		<array>
 			<string>location</string>
+			<string>audio</string>
 		</array>
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>

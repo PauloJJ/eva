@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:eva/models/personal_network_model.dart';
 import 'package:eva/utils/pick_image_util.dart';
 import 'package:eva/utils/utils_general.dart';
@@ -19,6 +20,8 @@ class AddOrRemovePersonalNetworkService extends GetxController {
   final nameController = TextEditingController();
   final phoneNumberController = TextEditingController();
   final emailController = TextEditingController();
+
+  RxString selectedCountry = '+55'.obs;
 
   Rx<XFile?> imagePath = Rx(null);
 
@@ -43,8 +46,9 @@ class AddOrRemovePersonalNetworkService extends GetxController {
       PersonalNetworkModel personalNetworkModel = PersonalNetworkModel(
         name: nameController.text,
         phoneNumber: phoneNumberController.text,
-        email: emailController.text.isEmpty ? null : emailController.text,
+        email: emailController.text,
         image: imagePath.value?.path,
+        countryCode: selectedCountry.value,
       );
 
       String? imageUrl;
@@ -71,8 +75,6 @@ class AddOrRemovePersonalNetworkService extends GetxController {
       await Future.delayed(Durations.extralong4);
     } on FirebaseException catch (_) {
       return FeedbackComponent.definitiveError(message: 'Tente novamente.');
-    } finally {
-      resetData();
     }
   }
 
@@ -83,8 +85,12 @@ class AddOrRemovePersonalNetworkService extends GetxController {
   showBottomAddOrEditPersonal({
     required bool isEdit,
     PersonalNetworkModel? personalNetworkModel,
-  }) {
-    return showModalBottomSheet(
+  }) async {
+    Get.put(
+      AddOrRemovePersonalNetworkService(),
+    );
+
+    await showModalBottomSheet(
       context: Get.context!,
       showDragHandle: true,
       backgroundColor: Colors.white,
@@ -154,20 +160,36 @@ class AddOrRemovePersonalNetworkService extends GetxController {
 
                         SizedBox(height: 15),
 
-                        TextFormFieldComponent(
-                          textEditingController: phoneNumberController,
-                          labelText: 'Telefone (WhatsApp)',
-                          icon: Icons.phone_enabled_outlined,
-                          obscureText: false,
+                        TextFormField(
+                          controller: phoneNumberController,
+                          keyboardType: TextInputType.visiblePassword,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                             TelefoneInputFormatter(),
                           ],
+
+                          decoration: InputDecoration(
+                            prefixIcon: CountryCodePicker(
+                              headerText: 'Seletor de país',
+                              textStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: color.onSecondary,
+                                fontSize: 16,
+                              ),
+                              initialSelection: selectedCountry.value,
+
+                              onChanged: (value) {
+                                selectedCountry.value = value.dialCode!;
+                              },
+                            ),
+
+                            label: Text(
+                              'Telefone (WhatsApp)',
+                            ),
+                          ),
                           validator: (value) {
-                            if (value == null ||
-                                value.isEmpty ||
-                                value.length < 14) {
-                              return 'Telefone inválido';
+                            if (value == null || value.length < 14) {
+                              return 'Senha inválida';
                             }
 
                             return null;
@@ -187,7 +209,7 @@ class AddOrRemovePersonalNetworkService extends GetxController {
                               return null;
                             }
 
-                            if (value.isNotEmpty &&
+                            if (value.isEmpty ||
                                 (!value.contains('@') ||
                                     !value.contains('.'))) {
                               return 'E-mail inválido. Certifique-se de incluir “@” e “.”';
@@ -202,14 +224,13 @@ class AddOrRemovePersonalNetworkService extends GetxController {
                         Obx(
                           () => ButtonsComponent.buttonFilled(
                             isLoading: isLoadingAddPersonal.value,
-                            function: () {
+                            function: () async {
                               if (isEdit == true) {
-                                if (!formKey.currentState!.validate()) {
-                                  return;
-                                }
-                                Get.back();
+                                await editContactPersonal(
+                                  personalNetworkModel!,
+                                );
                               } else {
-                                addPersonalNetwork();
+                                await addPersonalNetwork();
                               }
                             },
                             title: 'Adicionar',
@@ -225,12 +246,16 @@ class AddOrRemovePersonalNetworkService extends GetxController {
         );
       },
     );
+
+    Get.delete<AddOrRemovePersonalNetworkService>();
   }
 
   Future<String> uploadImage() async {
     String imageName = Random().nextDouble().toString();
 
-    final ref = FirebaseStorage.instance.ref().child('imagesPersonalNetwork/$imageName.jpg');
+    final ref = FirebaseStorage.instance.ref().child(
+      'imagesPersonalNetwork/$imageName.jpg',
+    );
 
     await ref.putFile(File(imagePath.value!.path));
 
@@ -239,35 +264,46 @@ class AddOrRemovePersonalNetworkService extends GetxController {
     return url;
   }
 
-  editContact({
+  showEditContact({
     required PersonalNetworkModel personalNetworkModel,
   }) async {
-    emailController.text = personalNetworkModel.email ?? '';
+    emailController.text = personalNetworkModel.email;
     nameController.text = personalNetworkModel.name;
     phoneNumberController.text = personalNetworkModel.phoneNumber;
+    selectedCountry.value = personalNetworkModel.countryCode;
 
     await showBottomAddOrEditPersonal(
       isEdit: true,
       personalNetworkModel: personalNetworkModel,
     );
+  }
+
+  editContactPersonal(PersonalNetworkModel personalNetworkModel) async {
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
 
     if (personalNetworkModel.name != nameController.text ||
         personalNetworkModel.email != emailController.text ||
         personalNetworkModel.phoneNumber != phoneNumberController.text ||
+        selectedCountry.value != personalNetworkModel.countryCode ||
         imagePath.value != null) {
       final userId = FirebaseAuth.instance.currentUser!.uid;
 
-      String? image;
+      String? imageNew;
+
+      isLoadingAddPersonal.value = true;
 
       if (imagePath.value != null) {
-        image = await uploadImage();
+        imageNew = await uploadImage();
       }
 
       PersonalNetworkModel newPersonalNetwork = PersonalNetworkModel(
         name: nameController.text,
         phoneNumber: phoneNumberController.text,
         email: emailController.text,
-        image: image,
+        image: imageNew ?? personalNetworkModel.image,
+        countryCode: selectedCountry.value,
       );
 
       try {
@@ -278,30 +314,33 @@ class AddOrRemovePersonalNetworkService extends GetxController {
             .doc(personalNetworkModel.docId)
             .update(newPersonalNetwork.toJson());
 
+        Get.back();
+
         FeedbackComponent.successfulAction(
           message: 'Dados de contato salvos com sucesso',
         );
       } on FirebaseException {
         FeedbackComponent.definitiveError(message: 'Tente novamente');
+      } finally {
+        isLoadingAddPersonal.value = false;
       }
     }
-
-    resetData();
   }
 
-  resetData() {
-    nameController.clear();
-    phoneNumberController.clear();
-    emailController.clear();
-    imagePath.value = null;
-    isLoadingAddPersonal.value = false;
-  }
+  // resetData() {
+  //   nameController.clear();
+  //   phoneNumberController.clear();
+  //   emailController.clear();
+  //   imagePath.value = null;
+  //   isLoadingAddPersonal.value = false;
+  // }
 
   deletePersonal(PersonalNetworkModel personalNetworkModel) async {
     final userId = FirebaseAuth.instance.currentUser!.uid;
 
     FeedbackComponent.confirmationAction(
-      content: 'Esta ação é irreversível. Tem certeza de que deseja continuar?',
+      content:
+          'Você está prestes a excluir esta pessoa da sua rede de apoio. Essa ação é irreversível',
       function: () async {
         try {
           await FirebaseFirestore.instance

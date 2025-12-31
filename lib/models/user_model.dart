@@ -7,6 +7,8 @@ class UserModel {
   late String email;
   late String? pushToken;
   late String profileImage;
+  late String countryCode;
+  late String? professionFairyGodmonther;
 
   late bool volunteerFairyGodmonther;
   late bool accountDeleted;
@@ -24,6 +26,8 @@ class UserModel {
     required this.email,
     required this.pushToken,
     required this.profileImage,
+    required this.countryCode,
+    required this.professionFairyGodmonther,
 
     required this.volunteerFairyGodmonther,
     required this.accountDeleted,
@@ -42,6 +46,8 @@ class UserModel {
     email = json['email'];
     pushToken = json['pushToken'];
     profileImage = json['profileImage'];
+    countryCode = json['countryCode'];
+    professionFairyGodmonther = json['professionFairyGodmonther'];
 
     volunteerFairyGodmonther = json['volunteerFairyGodmonther'];
     accountDeleted = json['accountDeleted'];
@@ -61,6 +67,8 @@ class UserModel {
       'email': email,
       'pushToken': pushToken,
       'profileImage': profileImage,
+      'countryCode': countryCode,
+      'professionFairyGodmonther': professionFairyGodmonther,
       'volunteerFairyGodmonther': volunteerFairyGodmonther,
       'accountDeleted': accountDeleted,
       'didTheTutorial': didTheTutorial,

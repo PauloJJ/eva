@@ -1,15 +1,32 @@
 import 'package:eva/services/bottom_navigation_service.dart';
-import 'package:eva/ux/screens/actions_sos/actions_sos_screen.dart';
+import 'package:eva/services/files_service.dart';
+import 'package:eva/ux/screens/actions/actions_screen.dart';
+import 'package:eva/ux/screens/files/files_screen.dart';
 import 'package:eva/ux/screens/home/home_screen.dart';
+import 'package:eva/ux/screens/user_profile/user_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class BottomNavigationComponent extends StatelessWidget {
-  BottomNavigationComponent({super.key});
+class BottomNavigationComponent extends StatefulWidget {
+  const BottomNavigationComponent({super.key});
 
+  @override
+  State<BottomNavigationComponent> createState() =>
+      _BottomNavigationComponentState();
+}
+
+class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
   final BottomNavigationService bottomNavigationService = Get.put(
     BottomNavigationService(),
   );
+
+  // Aqui inicamos outros controllers
+  @override
+  void initState() {
+    super.initState();
+
+    Get.put(FilesService());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +82,7 @@ class BottomNavigationComponent extends StatelessWidget {
                   Icons.person_outline_sharp,
                   size: 30,
                 ),
-                label: 'Provas',
+                label: 'Perfil',
                 activeIcon: Icon(
                   Icons.person_sharp,
                   size: 33,
@@ -79,6 +96,9 @@ class BottomNavigationComponent extends StatelessWidget {
             physics: NeverScrollableScrollPhysics(),
             children: [
               HomeScreen(),
+              ActionsScreen(),
+              FilesScreen(),
+              UserProfileScreen(),
             ],
           ),
         );
