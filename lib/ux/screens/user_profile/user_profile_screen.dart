@@ -1,10 +1,12 @@
 import 'package:eva/models/user_model.dart';
+import 'package:eva/services/auth_app_service.dart';
 import 'package:eva/services/user_service.dart';
 import 'package:eva/themes/app_text_style_theme.dart';
 import 'package:eva/utils/open_url_and_email_util.dart';
 import 'package:eva/utils/utils_general.dart';
 import 'package:eva/ux/components/card_action_component.dart';
 import 'package:eva/ux/screens/profile_edit_user/profile_edit_user_screen.dart';
+import 'package:eva/ux/screens/scheduling_police_station_woman/scheduling_police_station_woman_screen.dart';
 import 'package:eva/ux/screens/user_profile/widgets/card_fairy_godmonther_widget.dart';
 import 'package:eva/ux/screens/user_profile/widgets/support_network_widget.dart';
 import 'package:eva/ux/screens/user_profile/widgets/user_datas_widget.dart';
@@ -81,6 +83,40 @@ class UserProfileScreen extends StatelessWidget {
                         ),
                       ),
 
+                      SizedBox(height: 10),
+
+                      InkWell(
+                        onTap: () {
+                          AuthAppService authAppService = Get.find();
+
+                          authAppService.logout();
+                        },
+                        borderRadius: BorderRadius.circular(10),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: color.secondary,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: ListTile(
+                            leading: Icon(
+                              Icons.logout,
+                              size: 30,
+                              color: Colors.red,
+                            ),
+                            title: Text(
+                              'Sair da conta',
+                              style: AppTextStyleTheme.title.apply(
+                                color: Colors.red,
+                              ),
+                            ),
+                            trailing: Icon(
+                              Icons.arrow_forward,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                      ),
+
                       SizedBox(height: 30),
 
                       Text(
@@ -111,7 +147,9 @@ class UserProfileScreen extends StatelessWidget {
                       CardActionComponent(
                         title: 'DEAM - Delegacia da mulher',
                         image: 'assets/images/profile_component_01.png',
-                        function: () {},
+                        function: () {
+                          Get.to(() => SchedulingPoliceStationWomanScreen());
+                        },
                       ),
 
                       SizedBox(height: 15),

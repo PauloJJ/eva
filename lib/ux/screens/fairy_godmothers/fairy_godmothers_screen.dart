@@ -63,6 +63,9 @@ class _FairyGodmothersScreenState extends State<FairyGodmothersScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: SearchBar(
+                    onChanged: (value) {
+                      fairyGodmonthersService.searchFairyGodmonthers(value);
+                    },
                     leading: Icon(Icons.search),
                     hintText: 'Pesquisar por nome',
                   ),

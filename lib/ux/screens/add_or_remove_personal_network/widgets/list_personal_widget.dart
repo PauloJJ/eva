@@ -106,7 +106,7 @@ class ListPersonalWidget extends StatelessWidget {
                           color: Colors.grey,
                         ),
                         title: Text(
-                          personalNetworkModel.email ?? 'Vazio',
+                          personalNetworkModel.email,
                           style: AppTextStyleTheme.subTitle,
                         ),
                       ),

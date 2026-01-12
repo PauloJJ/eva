@@ -6,6 +6,7 @@ import 'package:eva/ux/screens/loadings/loadings_screen.dart';
 import 'package:eva/ux/screens/login/login_screen.dart';
 import 'package:eva/ux/screens/tutorial/tutorial_screen.dart';
 import 'package:eva/ux/screens/welcome/welcome_screen.dart';
+import 'package:eva/ux_adm/screens/home_adm/home_adm_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,13 +30,17 @@ class AuthOrAppComponent extends StatelessWidget {
             return LoadingsScreen(loadingIndex: 1);
           } else {
             if (snapshot.hasData) {
-              if (userModel == null) {
-                return LoadingsScreen(loadingIndex: 1);
+              if (snapshot.data!.email! == 'evaadm@adm.com') {
+                return HomeAdmScreen();
               } else {
-                if (userModel.didTheTutorial == false) {
-                  return TutorialScreen();
+                if (userModel == null) {
+                  return LoadingsScreen(loadingIndex: 1);
                 } else {
-                  return BottomNavigationComponent();
+                  if (userModel.didTheTutorial == false) {
+                    return TutorialScreen();
+                  } else {
+                    return BottomNavigationComponent();
+                  }
                 }
               }
             } else {

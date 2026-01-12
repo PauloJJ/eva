@@ -37,10 +37,10 @@ class ActionsSosService extends GetxController {
     bool updatedLocation = await getCurrentLocation();
 
     if (updatedLocation == true) {
-      // await Future.wait([
-      //   sendSms(),
-      //   sendEmails(),
-      // ]);
+      await Future.wait([
+        sendSms(),
+        sendEmails(),
+      ]);
 
       FeedbackComponent.successfulAction(
         message: 'Dados enviados com sucesso para sua rede de apoio.',

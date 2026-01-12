@@ -17,7 +17,7 @@ class ButtonsComponent {
             child: CircularProgressIndicator.adaptive(),
           )
         : OutlinedButton.icon(
-            iconAlignment: IconAlignment.end,
+            iconAlignment: IconAlignment.start,
             style: OutlinedButton.styleFrom(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -70,6 +70,7 @@ class ButtonsComponent {
               backgroundColor: color ?? Get.theme.colorScheme.primaryContainer,
             ),
             onPressed: function,
+            iconAlignment: IconAlignment.start,
             icon: icon == null
                 ? null
                 : Icon(

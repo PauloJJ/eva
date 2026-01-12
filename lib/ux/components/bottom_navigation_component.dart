@@ -1,3 +1,4 @@
+import 'package:eva/services/admob_service.dart';
 import 'package:eva/services/bottom_navigation_service.dart';
 import 'package:eva/services/files_service.dart';
 import 'package:eva/ux/screens/actions/actions_screen.dart';
@@ -20,11 +21,11 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
     BottomNavigationService(),
   );
 
-  // Aqui inicamos outros controllers
   @override
   void initState() {
     super.initState();
 
+    Get.put(AdmobService());
     Get.put(FilesService());
   }
 

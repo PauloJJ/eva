@@ -1,7 +1,9 @@
 import 'package:eva/themes/app_text_style_theme.dart';
 import 'package:eva/utils/utils_general.dart';
 import 'package:eva/ux/components/buttons_component.dart';
+import 'package:eva/ux/screens/scheduling_police_station_woman/scheduling_police_station_woman_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CardDeamWidget extends StatelessWidget {
   const CardDeamWidget({super.key});
@@ -9,7 +11,9 @@ class CardDeamWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Get.to(() => SchedulingPoliceStationWomanScreen());
+      },
       borderRadius: BorderRadius.circular(10),
       child: Container(
         width: size.width,
@@ -54,7 +58,9 @@ class CardDeamWidget extends StatelessWidget {
                         ButtonsComponent.buttonOutline(
                           title: 'Agendar',
                           height: 35,
-                          function: () {},
+                          function: () {
+                            Get.to(() => SchedulingPoliceStationWomanScreen());
+                          },
                         ),
                       ],
                     ),

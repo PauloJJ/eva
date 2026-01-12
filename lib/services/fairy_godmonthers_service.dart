@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 class FairyGodmonthersService extends GetxController {
   Rx<List<UserModel>> listFairyGodmonthers = Rx([]);
+  Rx<List<UserModel>> listFairyGodmonthersDuplicated = Rx([]);
 
   List<String> filterlist = [
     'Psicóloga',
@@ -31,6 +32,9 @@ class FairyGodmonthersService extends GetxController {
     await for (var e in snapshots) {
       final listUser = e.docs.map((e) => UserModel.fromJson(e.data())).toList();
 
+      listFairyGodmonthersDuplicated.value = listUser;
+      listFairyGodmonthersDuplicated.update((val) {});
+
       yield listUser;
     }
   }
@@ -41,6 +45,8 @@ class FairyGodmonthersService extends GetxController {
     } else {
       categorySelect.value = category;
     }
+
+    searchFairyGodmonthers('');
   }
 
   showDatasUser(UserModel userModel) {
@@ -55,5 +61,29 @@ class FairyGodmonthersService extends GetxController {
     );
   }
 
-  searchFairyGodmonthers() {}
+  searchFairyGodmonthers(String search) {
+    List<UserModel> listSearch = listFairyGodmonthersDuplicated.value.where(
+      (element) {
+        String formatName = element.name.toLowerCase();
+        String formatSearch = search.toLowerCase();
+
+        return formatName.contains(formatSearch);
+      },
+    ).toList();
+
+    if (categorySelect.value.isNotEmpty) {
+      listFairyGodmonthers.value = listSearch.where(
+        (element) {
+          String formatProfession = element.professionFairyGodmonther!
+              .toLowerCase();
+
+          String formatCategory = categorySelect.value.toLowerCase();
+
+          return formatProfession.contains(formatCategory);
+        },
+      ).toList();
+    } else {
+      listFairyGodmonthers.value = listSearch;
+    }
+  }
 }

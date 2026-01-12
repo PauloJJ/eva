@@ -1,9 +1,13 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva/models/user_model.dart';
+import 'package:eva/services/admob_service.dart';
+import 'package:eva/services/bottom_navigation_service.dart';
 import 'package:eva/services/files_service.dart';
 import 'package:eva/utils/upload_images_util.dart';
+import 'package:eva/ux/components/auth_or_app_component.dart';
 import 'package:eva/ux/components/feedback_component.dart';
+import 'package:eva/ux/components/show_loading_component.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -163,7 +167,60 @@ class AuthAppService extends GetxController {
   }
 
   logout() {
-    FirebaseAuth.instance.signOut();
-    Get.delete<FilesService>();
+    FeedbackComponent.confirmationAction(
+      content: 'Você está prestes a sair do app. Deseja continuar?',
+      function: () {
+        FirebaseAuth.instance.signOut();
+        Get.delete<FilesService>();
+        Get.delete<AdmobService>();
+        Get.delete<BottomNavigationService>();
+
+        Get.back();
+      },
+    );
+  }
+
+  deleteAccount({
+    required String password,
+    required GlobalKey<FormState> formKey,
+  }) async {
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+
+    showLoadingComponent();
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: FirebaseAuth.instance.currentUser!.email!,
+        password: password,
+      );
+    } catch (_) {
+      Get.back();
+      return FeedbackComponent.showErrorDefinitive(
+        content: 'A senha informada está incorreta. Tente novamente.',
+      );
+    }
+
+    try {
+      final userId = FirebaseAuth.instance.currentUser!.uid;
+
+      await FirebaseFirestore.instance.collection('users').doc(userId).update({
+        'accountDeleted': true,
+      });
+
+      await FirebaseAuth.instance.currentUser!.delete();
+      await FirebaseAuth.instance.signOut();
+
+      Get.delete<FilesService>();
+      Get.delete<AdmobService>();
+      Get.back();
+      Get.offAll(() => AuthOrAppComponent());
+    } catch (_) {
+      Get.back();
+      FeedbackComponent.showErrorDefinitive(
+        content: 'Ocorreu um erro. Por favor, tente de novo.',
+      );
+    }
   }
 }

@@ -41,6 +41,12 @@ class UserService extends GetxController {
   }
 
   Stream<UserModel> streamUser(String userId) async* {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user?.email == 'evaadm@adm.com') {
+      return;
+    }
+
     final snapshot = FirebaseFirestore.instance
         .collection('users')
         .doc(userId)

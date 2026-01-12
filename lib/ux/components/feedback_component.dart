@@ -139,4 +139,51 @@ class FeedbackComponent {
       },
     );
   }
+
+  static showInformation(String information) {
+    return showDialog(
+      context: Get.context!,
+      builder: (context) {
+        return AlertDialog(
+          scrollable: true,
+          content: Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Text(information),
+          ),
+          actions: [
+            ButtonsComponent.buttonFilled(
+              title: 'Voltar',
+              function: () {
+                Get.back();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  static showErrorDefinitive({
+    required String content,
+  }) {
+    return showDialog(
+      context: Get.context!,
+      builder: (context) {
+        return AlertDialog(
+          scrollable: true,
+          title: Text('Error'),
+          content: Text(content),
+          actions: [
+            ButtonsComponent.buttonFilled(
+              title: 'Voltar',
+              color: Colors.red,
+              function: () {
+                Get.back();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

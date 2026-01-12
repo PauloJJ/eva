@@ -7,6 +7,7 @@ class HiveService extends GetxController {
   Rx<Box?> box = Rx(null);
 
   Rx<bool?> firstTimeOnTheApp = Rx(null);
+  Rx<bool> firstSchedulingPolice = Rx(true);
 
   @override
   void onInit() {
@@ -24,16 +25,21 @@ class HiveService extends GetxController {
   }
 
   getPreferences() {
-    getFirstTimeOnTheApp();
+    getBoxs();
   }
 
-  getFirstTimeOnTheApp() async {
+  getBoxs() async {
     final firstApp = await box.value!.get('firstTimeOnTheApp');
+    final schedulingPolice = await box.value!.get('firstSchedulingPolice');
 
     if (firstApp == null) {
       firstTimeOnTheApp.value = true;
     } else {
       firstTimeOnTheApp.value = firstApp;
+    }
+
+    if (schedulingPolice != null) {
+      firstSchedulingPolice.value = schedulingPolice;
     }
   }
 
@@ -42,7 +48,11 @@ class HiveService extends GetxController {
     firstTimeOnTheApp.value = false;
   }
 
-  // Pegando Files do App //
+  updateFirstWelcomeSchedulingPolice() {
+    box.value!.put('firstSchedulingPolice', false);
+  }
+
+  // Pegando Files do App  daqui pra baixo//
 
   // Fotos
   updateListPhotos({required List<String> list}) {

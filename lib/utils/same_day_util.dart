@@ -1,0 +1,3 @@
+sameday({required DateTime a, required DateTime b}) {
+  return a.day == b.day && a.month == b.month && a.year == b.year;
+}
