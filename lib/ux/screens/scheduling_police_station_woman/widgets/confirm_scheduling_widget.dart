@@ -70,6 +70,27 @@ class ShowConfirmSchedulingWidget extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.red.withAlpha(15),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: ListTile(
+                                contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 10,
+                                ),
+                                title: Text(
+                                  'O agendamento está disponível exclusivamente para a cidade de Governador Valadares/MG.',
+                                  style: AppTextStyleTheme.subTitle.apply(
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            SizedBox(height: 20),
+
                             Text(
                               'Informações',
                               style: AppTextStyleTheme.h3,
