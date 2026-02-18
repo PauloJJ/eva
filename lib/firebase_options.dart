@@ -60,11 +60,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDz5xnmzO5DrVKXdm_dmZUS2SFhPdZDoEc',
-    appId: '1:887049669354:ios:237e64cffc7fbe67ac6593',
+    appId: '1:887049669354:ios:3fdee8d53e5b3cf9ac6593',
     messagingSenderId: '887049669354',
     projectId: 'evaapp-e5e49',
     storageBucket: 'evaapp-e5e49.firebasestorage.app',
-    iosBundleId: 'br.com.eva',
+    iosBundleId: 'br.com.evasos',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -85,4 +85,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'evaapp-e5e49.firebasestorage.app',
     measurementId: 'G-YWYHCKS78S',
   );
+
 }
