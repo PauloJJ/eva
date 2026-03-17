@@ -29,7 +29,7 @@
 		<key>CFBundleVersion</key>
 		<string>$(FLUTTER_BUILD_NUMBER)</string>
 		<key>GADApplicationIdentifier</key>
-		<string>ca-app-pub-4539366725503005~7708433114</string>
+		<string>ca-app-pub-4539366725503005~4910120558</string>
 		<key>LSApplicationQueriesSchemes</key>
 		<array>
 			<string>sms</string>

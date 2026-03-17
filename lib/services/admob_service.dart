@@ -16,11 +16,8 @@ class AdmobService extends GetxController {
 
   loadAndShowOpenAppAd() {
     String adUnitId = Platform.isAndroid
-        ? 'ca-app-pub-3940256099942544/9257395921'
-        : 'ca-app-pub-3940256099942544/5575463023';
-
-    // ? 'ca-app-pub-4539366725503005/5273841463'
-    // : 'ca-app-pub-4539366725503005/8822204237';
+        ? 'ca-app-pub-4539366725503005/5273841463'
+        : 'ca-app-pub-4539366725503005/7522696243';
 
     if (isInit.value == true) {
       return;
