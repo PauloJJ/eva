@@ -91,6 +91,7 @@ class ViewListPhotosFilesComponent extends StatelessWidget {
                     );
                   },
                   onTap: () {
+                    print('========================= ${isPreviewList}');
                     if (isPreviewList == true) {
                       filesService.navigatorFileScreen(
                         filePath: path,

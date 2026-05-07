@@ -36,13 +36,10 @@ class FilesService extends GetxController {
   }) async {
     final file = File(filePath);
 
-    showLoadingComponent();
-
     final bool exist = await file.exists();
+    Get.back();
 
     if (exist == true) {
-      Get.back();
-
       if (listName == 'photographs') {
         Get.to(() => FilesPhotographsScreen());
         openFile(path: filePath, index: index, listName: listName);
@@ -54,8 +51,6 @@ class FilesService extends GetxController {
         Get.to(() => AudioPlayerScreen(path: filePath));
       }
     } else {
-      Get.back();
-
       FeedbackComponent.definitiveError(message: 'Arquivo não encontrado.');
       deleFile(listName: listName, index: index);
     }
@@ -100,17 +95,15 @@ class FilesService extends GetxController {
     final file = File(path);
 
     showLoadingComponent();
+    Get.back();
 
     bool fileExist = await file.exists();
 
     if (fileExist == true) {
       await OpenFilex.open(path);
-
-      Get.back();
     } else {
       await deleFile(listName: listName, index: index);
 
-      Get.back();
       FeedbackComponent.definitiveError(message: 'Arquivo não encontrado.');
     }
   }
