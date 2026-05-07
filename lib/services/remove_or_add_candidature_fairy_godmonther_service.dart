@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva/ux/components/feedback_component.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class RemoveOrAddCandidatureFairyGodmontherService extends GetxController {
+  final formKey = GlobalKey<FormState>();
+
   List<String> filterlist = [
     'Psicóloga',
     'Advogada',
@@ -23,7 +26,14 @@ class RemoveOrAddCandidatureFairyGodmontherService extends GetxController {
     }
   }
 
-  appliedToBeAFairygodmother() async {
+  appliedToBeAFairygodmother({
+    required String email,
+    required String number,
+  }) async {
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+
     if (categorySelect.value.isEmpty) {
       FeedbackComponent.definitiveError(
         message: 'Selecione a categoria para continuar.',
@@ -39,6 +49,9 @@ class RemoveOrAddCandidatureFairyGodmontherService extends GetxController {
       await FirebaseFirestore.instance.collection('users').doc(userId).update({
         'professionFairyGodmonther': categorySelect.value,
         'volunteerFairyGodmonther': true,
+
+        'numberVolunteer': number,
+        'emailVolunteer': email,
       });
 
       Get.back();

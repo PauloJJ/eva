@@ -9,6 +9,8 @@ class UserModel {
   late String profileImage;
   late String countryCode;
   late String? professionFairyGodmonther;
+  late String? numberVolunteer;
+  late String? emailVolunteer;
 
   late bool volunteerFairyGodmonther;
   late bool accountDeleted;
@@ -28,6 +30,8 @@ class UserModel {
     required this.profileImage,
     required this.countryCode,
     required this.professionFairyGodmonther,
+    required this.numberVolunteer,
+    required this.emailVolunteer,
 
     required this.volunteerFairyGodmonther,
     required this.accountDeleted,
@@ -48,6 +52,8 @@ class UserModel {
     profileImage = json['profileImage'];
     countryCode = json['countryCode'];
     professionFairyGodmonther = json['professionFairyGodmonther'];
+    numberVolunteer = json['numberVolunteer'];
+    emailVolunteer = json['emailVolunteer'];
 
     volunteerFairyGodmonther = json['volunteerFairyGodmonther'];
     accountDeleted = json['accountDeleted'];
@@ -75,6 +81,8 @@ class UserModel {
       'lastSosActivated': lastSosActivated,
       'accountCreationDate': accountCreationDate,
       'currentLocation': currentLocation,
+      'numberVolunteer': numberVolunteer,
+      'emailVolunteer': emailVolunteer,
     };
   }
 }

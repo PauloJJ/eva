@@ -251,6 +251,8 @@ class RegisterScreen extends StatelessWidget {
                                         accountCreationDate:
                                             DateTime.timestamp(),
                                         currentLocation: null,
+                                        emailVolunteer: null,
+                                        numberVolunteer: null,
                                       ),
                                     );
                                   },

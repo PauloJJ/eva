@@ -46,7 +46,7 @@ class ShowDatasUserWidget extends StatelessWidget {
             height: 35,
           ),
           title: Text(
-            userModel.phoneNumber,
+            userModel.numberVolunteer ?? userModel.phoneNumber,
             style: AppTextStyleTheme.title.apply(color: color.primary),
           ),
         ),
@@ -67,7 +67,7 @@ class ShowDatasUserWidget extends StatelessWidget {
           ),
           title: FittedBox(
             child: Text(
-              userModel.email,
+              userModel.emailVolunteer ?? userModel.email,
               style: AppTextStyleTheme.title.apply(color: color.primary),
             ),
           ),
