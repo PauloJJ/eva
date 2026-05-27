@@ -18,6 +18,7 @@ class UserModel {
 
   late DateTime lastSosActivated;
   late DateTime accountCreationDate;
+  late DateTime? lastConsultCriminalRecord;
 
   late GeoPoint? currentLocation;
 
@@ -39,6 +40,7 @@ class UserModel {
 
     required this.lastSosActivated,
     required this.accountCreationDate,
+    this.lastConsultCriminalRecord,
 
     required this.currentLocation,
   });
@@ -61,6 +63,9 @@ class UserModel {
 
     lastSosActivated = (json['lastSosActivated'] as Timestamp).toDate();
     accountCreationDate = (json['accountCreationDate'] as Timestamp).toDate();
+    lastConsultCriminalRecord = json['lastConsultCriminalRecord'] != null
+        ? (json['lastConsultCriminalRecord'] as Timestamp).toDate()
+        : null;
 
     currentLocation = json['currentLocation'];
   }
@@ -83,6 +88,7 @@ class UserModel {
       'currentLocation': currentLocation,
       'numberVolunteer': numberVolunteer,
       'emailVolunteer': emailVolunteer,
+      'lastConsultCriminalRecord': null,
     };
   }
 }

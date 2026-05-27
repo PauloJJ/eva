@@ -3,6 +3,7 @@ import 'package:eva/services/bottom_navigation_service.dart';
 import 'package:eva/themes/app_text_style_theme.dart';
 import 'package:eva/ux/components/buttons_component.dart';
 import 'package:eva/ux/components/card_action_component.dart';
+import 'package:eva/ux/screens/actions/widgets/card_criminal_record_widget.dart';
 import 'package:eva/ux/screens/actions/widgets/card_deam_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,9 +25,9 @@ class ActionsScreen extends StatelessWidget {
               children: [
                 SizedBox(height: 20),
 
-                CardDeamWidget(),
+                CardCriminalRecordWidget(),
 
-                SizedBox(height: 40),
+                SizedBox(height: 30),
 
                 Text(
                   'Ações de Evidências',
@@ -75,6 +76,10 @@ class ActionsScreen extends StatelessWidget {
                     },
                   ),
                 ),
+
+                SizedBox(height: 10),
+
+                CardDeamWidget(),
 
                 SizedBox(height: 30),
 

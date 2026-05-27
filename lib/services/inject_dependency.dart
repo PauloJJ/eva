@@ -17,7 +17,7 @@ class InjectDependency {
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
-    await dotenv.load(fileName: '.env');
+    // await dotenv.load(fileName: '.env');
 
     Get.put(HiveService());
     Get.put(AuthAppService());

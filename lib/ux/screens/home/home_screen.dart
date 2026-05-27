@@ -1,3 +1,4 @@
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:eva/models/user_model.dart';
 import 'package:eva/services/animations_controller_service.dart';
 import 'package:eva/services/user_service.dart';
@@ -51,6 +52,7 @@ class HomeScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SizedBox(height: 20),
+
                     animationsControllerService.animationHomeFade(
                       SupportNetworkComponent(),
                     ),

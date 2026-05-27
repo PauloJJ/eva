@@ -13,6 +13,7 @@ class TextFormFieldComponent extends StatelessWidget {
   final TextEditingController? textEditingController;
   final bool? enabled;
   final String? hint;
+  final Widget? help;
 
   const TextFormFieldComponent({
     super.key,
@@ -26,6 +27,7 @@ class TextFormFieldComponent extends StatelessWidget {
     this.textEditingController,
     this.enabled,
     this.hint,
+    this.help,
   });
 
   @override
@@ -46,6 +48,7 @@ class TextFormFieldComponent extends StatelessWidget {
         label: Text(
           labelText ?? '',
         ),
+        helper: help,
       ),
       validator: (value) {
         if (validator == null) {
