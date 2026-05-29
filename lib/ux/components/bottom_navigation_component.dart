@@ -4,6 +4,7 @@ import 'package:eva/services/files_service.dart';
 import 'package:eva/ux/screens/actions/actions_screen.dart';
 import 'package:eva/ux/screens/files/files_screen.dart';
 import 'package:eva/ux/screens/home/home_screen.dart';
+import 'package:eva/ux/screens/tasks/tasks_screen.dart';
 import 'package:eva/ux/screens/user_profile/user_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -37,7 +38,6 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: bottomNavigationService.index.value,
             showUnselectedLabels: false,
-
             onTap: (value) {
               bottomNavigationService.navigatorPage(value);
             },
@@ -56,10 +56,22 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
 
               BottomNavigationBarItem(
                 icon: Icon(
+                  Icons.assignment_outlined,
+                  size: 30,
+                ),
+                label: 'Tarefas',
+                activeIcon: Icon(
+                  Icons.assignment,
+                  size: 33,
+                ),
+              ),
+
+              BottomNavigationBarItem(
+                icon: Icon(
                   Icons.security_outlined,
                   size: 30,
                 ),
-                label: 'Ações',
+                label: 'Tarefa',
                 activeIcon: Icon(
                   Icons.security,
                   size: 33,
@@ -97,6 +109,7 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
             physics: NeverScrollableScrollPhysics(),
             children: [
               HomeScreen(),
+              TasksScreen(),
               ActionsScreen(),
               FilesScreen(),
               UserProfileScreen(),
