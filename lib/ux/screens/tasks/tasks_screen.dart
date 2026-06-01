@@ -1,3 +1,4 @@
+import 'package:eva/ux/screens/tasks/widgets/empty_tasks_widget.dart';
 import 'package:eva/ux/screens/tasks/widgets/select_date_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,8 @@ class TasksScreen extends StatelessWidget {
         child: Column(
           children: [
             SelectDateWidget(),
+
+            EmptyTasksWidget(),
           ],
         ),
       ),
