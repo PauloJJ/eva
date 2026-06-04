@@ -33,6 +33,8 @@ class UserService extends GetxController {
         if (event == null) {
           userModel.value = null;
         } else {
+          print('USERID ============================== ${event.uid}');
+          
           userModel.bindStream(streamUser(event.uid));
           listPersonalNetworkModel.bindStream(streamPersonalNetwork(event.uid));
         }

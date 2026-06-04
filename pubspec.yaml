@@ -55,6 +55,7 @@ dependencies:
   flutter_localization: ^0.3.3
   google_mobile_ads: ^7.0.0
   easy_date_timeline: ^2.0.9
+  emojis: ^0.9.9
 
   # Google
   google_fonts: ^6.3.2

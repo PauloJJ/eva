@@ -16,7 +16,7 @@ class SelectDateWidget extends StatelessWidget {
           bottomRight: Radius.circular(20),
         ),
       ),
-      padding: EdgeInsets.symmetric(vertical: 30),
+      padding: EdgeInsets.symmetric(vertical: 25),
       child: EasyDateTimeLinePicker.itemBuilder(
         headerOptions: HeaderOptions(headerType: HeaderType.none),
         timelineOptions: TimelineOptions(height: 120),
