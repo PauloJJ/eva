@@ -4,6 +4,7 @@ import 'package:app_settings/app_settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva/models/personal_network_model.dart';
 import 'package:eva/models/user_model.dart';
+import 'package:eva/services/task_service.dart';
 import 'package:eva/utils/pick_image_util.dart';
 import 'package:eva/ux/components/feedback_component.dart';
 import 'package:eva/ux/components/show_loading_component.dart';
@@ -33,10 +34,11 @@ class UserService extends GetxController {
         if (event == null) {
           userModel.value = null;
         } else {
-          print('USERID ============================== ${event.uid}');
-          
           userModel.bindStream(streamUser(event.uid));
           listPersonalNetworkModel.bindStream(streamPersonalNetwork(event.uid));
+
+          TaskService taskService = Get.find<TaskService>();
+          taskService.listTasks.bindStream(taskService.streamTasks(event.uid));
         }
       },
     );

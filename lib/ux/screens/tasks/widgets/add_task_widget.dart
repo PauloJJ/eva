@@ -211,6 +211,8 @@ class AddTaskWidget {
 
     return Obx(
       () {
+        bool isLoading = addTaskService.isLoading.value;
+
         return Expanded(
           child: SingleChildScrollView(
             child: Column(
@@ -383,27 +385,29 @@ class AddTaskWidget {
 
                 SizedBox(height: 30),
 
-                FilledButton.icon(
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStatePropertyAll(Colors.white),
-                  ),
-                  onPressed: () {
-                    addTaskService.addTask();
-                  },
-                  label: SizedBox(
-                    height: 55,
-                    child: Center(
-                      child: Text(
-                        'Adicionar Tarefa',
-                        style: GoogleFonts.montserrat(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Colors.black,
+                isLoading == true
+                    ? Center(child: CircularProgressIndicator.adaptive())
+                    : FilledButton.icon(
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll(Colors.white),
+                        ),
+                        onPressed: () {
+                          addTaskService.addTask();
+                        },
+                        label: SizedBox(
+                          height: 55,
+                          child: Center(
+                            child: Text(
+                              'Adicionar Tarefa',
+                              style: GoogleFonts.montserrat(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
               ],
             ),
           ),

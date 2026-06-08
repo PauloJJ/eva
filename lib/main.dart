@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      locale: Locale('pt', 'BR'),
       localizationsDelegates: [
         GlobalCupertinoLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

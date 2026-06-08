@@ -4,6 +4,7 @@ import 'package:eva/models/user_model.dart';
 import 'package:eva/services/admob_service.dart';
 import 'package:eva/services/bottom_navigation_service.dart';
 import 'package:eva/services/files_service.dart';
+import 'package:eva/services/hive_service.dart';
 import 'package:eva/utils/upload_images_util.dart';
 import 'package:eva/ux/components/auth_or_app_component.dart';
 import 'package:eva/ux/components/feedback_component.dart';
@@ -100,6 +101,8 @@ class AuthAppService extends GetxController {
   }
 
   login({required String email, required String password}) async {
+    HiveService hiveService = Get.find<HiveService>();
+
     if (!formKeyLogin.currentState!.validate()) {
       FeedbackComponent.definitiveError(
         message: 'Verifique o campo com erro e tente novamente',
@@ -117,6 +120,8 @@ class AuthAppService extends GetxController {
       );
 
       viewPassword.value = true;
+
+      hiveService.getListTasks();
     } on FirebaseException catch (error) {
       String errorMessage = 'Algo deu errado, Tente novamente.';
 

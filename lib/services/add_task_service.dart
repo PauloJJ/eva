@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva/models/task_moc_model.dart';
+import 'package:eva/models/task_model.dart';
+import 'package:eva/utils/list_colors.dart';
 import 'package:eva/ux/components/feedback_component.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
 
 enum PhasesTask { phase01, phase02 }
@@ -30,14 +31,7 @@ class AddTaskService extends GetxController {
 
   Rx<DateTime?> timer = Rx(null);
 
-  final listColor = [
-    Color(0xFFFED9FA),
-    Color(0xFFFEE4C1),
-    Color(0xFFFFF07E),
-    Color(0xFFDDF7B6),
-    Color(0xFFCCF4EB),
-    Color(0xFFE9D9FE),
-  ];
+  final listColor = ListColors.colors;
 
   List<Map<String, dynamic>> listTasks = [
     {
@@ -538,15 +532,17 @@ class AddTaskService extends GetxController {
           .doc(userId)
           .collection('tasks')
           .doc()
-          .set({
-            'nameTask': task.nameTask,
-            'emoji': task.emoji,
-            'repeat': selectedDays.value,
-            'anytime': timer.value == null ? true : false,
-            'scheduled': timer.value,
-            'indexColor': colorIndex.value!,
-            'creationDate': DateTime.now(),
-          });
+          .set(
+            TaskModel(
+              anytime: timer.value == null ? true : false,
+              creationDate: DateTime.now(),
+              emoji: task.emoji,
+              indexColor: colorIndex.value!,
+              nameTask: task.nameTask,
+              repeat: selectedDays.value,
+              schedules: timer.value,
+            ).toJson(),
+          );
 
       Get.back();
 

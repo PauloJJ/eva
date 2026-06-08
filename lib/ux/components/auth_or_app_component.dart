@@ -1,5 +1,6 @@
 import 'package:eva/models/user_model.dart';
 import 'package:eva/services/hive_service.dart';
+import 'package:eva/services/notification_local_service.dart';
 import 'package:eva/services/user_service.dart';
 import 'package:eva/ux/components/bottom_navigation_component.dart';
 import 'package:eva/ux/screens/loadings/loadings_screen.dart';
@@ -11,11 +12,23 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AuthOrAppComponent extends StatelessWidget {
-  AuthOrAppComponent({super.key});
+class AuthOrAppComponent extends StatefulWidget {
+  const AuthOrAppComponent({super.key});
 
+  @override
+  State<AuthOrAppComponent> createState() => _AuthOrAppComponentState();
+}
+
+class _AuthOrAppComponentState extends State<AuthOrAppComponent> {
   final HiveService hiveService = Get.find();
+
   final UserService userService = Get.find();
+
+  @override
+  void initState() {
+    Get.put(NotificationLocalService());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

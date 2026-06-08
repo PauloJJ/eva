@@ -3,25 +3,39 @@ import 'package:eva/services/actions_service.dart';
 import 'package:eva/services/animations_controller_service.dart';
 import 'package:eva/services/auth_app_service.dart';
 import 'package:eva/services/hive_service.dart';
+import 'package:eva/services/notification_local_service.dart';
+import 'package:eva/services/task_service.dart';
 import 'package:eva/services/user_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/instance_manager.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+import 'package:flutter_timezone/flutter_timezone.dart';
 
 class InjectDependency {
   static init() async {
     WidgetsFlutterBinding.ensureInitialized();
 
+    tz.initializeTimeZones();
+
+    final TimezoneInfo currentTimeZone =
+        await FlutterTimezone.getLocalTimezone();
+
+    final location = tz.getLocation(currentTimeZone.identifier);
+    tz.setLocalLocation(location);
+
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
-    // await dotenv.load(fileName: '.env');
-
-    Get.put(HiveService());
     Get.put(AuthAppService());
     Get.put(UserService());
+    Get.put(TaskService());
+
+    final HiveService hiveService = Get.put(HiveService());
+    await hiveService.initHive();
+
     Get.put(AnimationsControllerService());
     Get.put(ActionsService());
   }

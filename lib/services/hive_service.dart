@@ -1,3 +1,4 @@
+import 'package:eva/services/task_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
@@ -9,26 +10,17 @@ class HiveService extends GetxController {
   Rx<bool?> firstTimeOnTheApp = Rx(null);
   Rx<bool> firstSchedulingPolice = Rx(true);
 
-  @override
-  void onInit() {
-    initHive();
-    super.onInit();
-  }
-
-  initHive() async {
+  Future<void> initHive() async {
     final diretory = await getApplicationDocumentsDirectory();
 
     Hive.init(diretory.path);
     box.value = await Hive.openBox('myBox');
 
-    getPreferences();
+    await prefers();
+    await getListTasks();
   }
 
-  getPreferences() {
-    getBoxs();
-  }
-
-  getBoxs() async {
+  Future<void> prefers() async {
     final firstApp = await box.value!.get('firstTimeOnTheApp');
     final schedulingPolice = await box.value!.get('firstSchedulingPolice');
 
@@ -52,7 +44,35 @@ class HiveService extends GetxController {
     box.value!.put('firstSchedulingPolice', false);
   }
 
-  // Pegando Files do App  daqui pra baixo//
+  // list Tarefas
+  getListTasks() async {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+
+    if (userId == null) {
+      return;
+    }
+
+    TaskService taskService = Get.find<TaskService>();
+
+    final response = await box.value!.get('tasks_user_$userId');
+
+    if (response == null) {
+      taskService.tasksCompleted.value = [];
+      return;
+    }
+
+    final List<String> list = List<String>.from(response);
+
+    taskService.tasksCompleted.value = list;
+  }
+
+  Future<void> updateListTasks(List<String> list) async {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+
+    await box.value!.put('tasks_user_$userId', list);
+  }
+
+  // Pegando Files do App  daqui pra baixo //
 
   // Fotos
   updateListPhotos({required List<String> list}) {

@@ -186,4 +186,36 @@ class FeedbackComponent {
       },
     );
   }
+
+  static showConfirmAction({
+    required String information,
+    required Function() function,
+  }) {
+    return showDialog(
+      context: Get.context!,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Tem certeza ?'),
+          content: Text(information),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: Text('Voltar'),
+            ),
+
+            TextButton(
+              onPressed: () {
+                function();
+
+                Get.back();
+              },
+              child: Text('Confirmar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
