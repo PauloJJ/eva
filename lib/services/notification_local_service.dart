@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app_settings/app_settings.dart';
 import 'package:eva/ux/components/feedback_component.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -16,12 +18,6 @@ class NotificationLocalService extends GetxController {
   }
 
   initNotification() async {
-    final bool status = await requestPermission();
-
-    if (status == false) {
-      return;
-    }
-
     final AndroidInitializationSettings androidInitializationSettings =
         AndroidInitializationSettings('@mipmap/ic_laucher');
 
@@ -67,7 +63,11 @@ class NotificationLocalService extends GetxController {
     required String title,
     required String body,
     required String? payload,
-  }) {
+  }) async {
+    if (await requestPermission() == false) {
+      return;
+    }
+
     final notificationDetails = NotificationDetails(
       android: AndroidNotificationDetails(
         'channelId',
@@ -78,8 +78,6 @@ class NotificationLocalService extends GetxController {
       ),
       iOS: DarwinNotificationDetails(),
     );
-
-    print('????????????????');
 
     flutterLocalNotificationsPlugin.value!.show(
       id: 0,
