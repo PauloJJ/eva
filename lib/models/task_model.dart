@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TaskModel {
   late String? docId;
-  late bool anytime;
   late DateTime creationDate;
   late String emoji;
   late int indexColor;
@@ -10,19 +9,21 @@ class TaskModel {
   late List<String> repeat;
   late DateTime? schedules;
 
+  late String taskId;
+
   TaskModel({
     this.docId,
-    required this.anytime,
     required this.creationDate,
     required this.emoji,
     required this.indexColor,
     required this.nameTask,
     required this.repeat,
     required this.schedules,
+
+    required this.taskId,
   });
 
   TaskModel.fromJson(Map<String, dynamic> json) {
-    anytime = json['anytime'];
     creationDate = (json['creationDate'] as Timestamp).toDate();
     emoji = json['emoji'];
     indexColor = json['indexColor'];
@@ -31,17 +32,19 @@ class TaskModel {
     schedules = json['schedules'] == null
         ? null
         : (json['schedules'] as Timestamp).toDate();
+
+    taskId = json['taskId'];
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'anytime': anytime,
       'creationDate': creationDate,
       'emoji': emoji,
       'indexColor': indexColor,
       'nameTask': nameTask,
       'repeat': repeat,
       'schedules': schedules,
+      'taskId': taskId,
     };
   }
 }

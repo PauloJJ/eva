@@ -1,6 +1,7 @@
 import 'package:eva/models/task_model.dart';
 import 'package:eva/services/task_service.dart';
 import 'package:eva/ux/components/banner_quizz_component.dart';
+import 'package:eva/ux/screens/tasks/widgets/add_task_widget.dart';
 import 'package:eva/ux/screens/tasks/widgets/empty_tasks_widget.dart';
 import 'package:eva/ux/screens/tasks/widgets/list_tasks_widget.dart';
 import 'package:eva/ux/screens/tasks/widgets/select_date_widget.dart';
@@ -18,6 +19,19 @@ class TasksScreen extends StatelessWidget {
       List<TaskModel> listTasks = taskService.listTasks.value;
 
       return Scaffold(
+        floatingActionButton: FloatingActionButton(
+          shape: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(800),
+            borderSide: BorderSide.none,
+          ),
+          child: Icon(
+            Icons.add,
+            size: 30,
+          ),
+          onPressed: () {
+            AddTaskWidget().addTask();
+          },
+        ),
         body: SafeArea(
           child: Column(
             children: [

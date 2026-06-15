@@ -1,6 +1,5 @@
 import 'package:eva/models/user_model.dart';
 import 'package:eva/services/animations_controller_service.dart';
-import 'package:eva/services/notification_local_service.dart';
 import 'package:eva/services/user_service.dart';
 import 'package:eva/themes/app_text_style_theme.dart';
 import 'package:eva/utils/utils_general.dart';
@@ -55,20 +54,6 @@ class HomeScreen extends StatelessWidget {
 
                     animationsControllerService.animationHomeFade(
                       SupportNetworkComponent(),
-                    ),
-
-                    ElevatedButton(
-                      onPressed: () {
-                        NotificationLocalService notificationLocalService =
-                            Get.find<NotificationLocalService>();
-
-                        notificationLocalService.showNotification(
-                          title: 'title',
-                          body: 'body',
-                          payload: 'payload',
-                        );
-                      },
-                      child: Text('Teste'),
                     ),
 
                     SizedBox(height: 30),

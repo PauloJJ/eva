@@ -1,6 +1,8 @@
+import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva/models/task_moc_model.dart';
 import 'package:eva/models/task_model.dart';
+import 'package:eva/services/task_service.dart';
 import 'package:eva/utils/list_colors.dart';
 import 'package:eva/ux/components/feedback_component.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -499,8 +501,8 @@ class AddTaskService extends GetxController {
     phase.value = PhasesTask.phase02;
   }
 
-  selectedAndRemoveDay(String day) {
-    if (selectedDays.value.length <= 1) {
+  selectedAndRemoveDay({required String day, required int index}) {
+    if (selectedDays.value.length <= 1 && selectedDays.value.contains(day)) {
       return null;
     }
 
@@ -515,6 +517,8 @@ class AddTaskService extends GetxController {
 
   addTask() async {
     final TaskMocModel task = taskMocModel.value!;
+
+    final TaskService taskService = Get.find<TaskService>();
 
     if (task.nameTask.isEmpty) {
       return FeedbackComponent.definitiveError(
@@ -534,21 +538,19 @@ class AddTaskService extends GetxController {
           .doc()
           .set(
             TaskModel(
-              anytime: timer.value == null ? true : false,
               creationDate: DateTime.now(),
               emoji: task.emoji,
               indexColor: colorIndex.value!,
               nameTask: task.nameTask,
               repeat: selectedDays.value,
               schedules: timer.value,
+              taskId: Random().nextInt(100000).toString(),
             ).toJson(),
           );
 
-      Get.back();
+      await taskService.registerNotifications();
 
-      FeedbackComponent.successfulAction(
-        message: 'Tarefa criada com sucesso! 🎉',
-      );
+      Get.back();
     } catch (_) {
       return FeedbackComponent.definitiveError(
         message:

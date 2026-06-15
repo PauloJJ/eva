@@ -3,7 +3,6 @@ import 'package:eva/services/actions_service.dart';
 import 'package:eva/services/animations_controller_service.dart';
 import 'package:eva/services/auth_app_service.dart';
 import 'package:eva/services/hive_service.dart';
-import 'package:eva/services/notification_local_service.dart';
 import 'package:eva/services/task_service.dart';
 import 'package:eva/services/user_service.dart';
 import 'package:firebase_core/firebase_core.dart';

@@ -1,10 +1,9 @@
-import 'dart:io';
-
 import 'package:app_settings/app_settings.dart';
 import 'package:eva/ux/components/feedback_component.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class NotificationLocalService extends GetxController {
   Rx<FlutterLocalNotificationsPlugin?> flutterLocalNotificationsPlugin = Rx(
@@ -70,8 +69,8 @@ class NotificationLocalService extends GetxController {
 
     final notificationDetails = NotificationDetails(
       android: AndroidNotificationDetails(
-        'channelId',
-        'daily_notifications',
+        '01',
+        'general_notifications',
         channelDescription: 'General notification channel',
         importance: Importance.max,
         priority: Priority.high,
@@ -81,8 +80,50 @@ class NotificationLocalService extends GetxController {
 
     flutterLocalNotificationsPlugin.value!.show(
       id: 0,
+      title: title,
       body: body,
       notificationDetails: notificationDetails,
+    );
+  }
+
+  Future<void> schedulePeriodicNotifications({
+    required String title,
+    required String? body,
+    required int id,
+    required tz.TZDateTime scheduleDate,
+    required String payload,
+  }) async {
+    await flutterLocalNotificationsPlugin.value!.zonedSchedule(
+      id: id,
+      scheduledDate: scheduleDate,
+      notificationDetails: NotificationDetails(
+        android: AndroidNotificationDetails(
+          'channel_schedule_date',
+          'channel_schedule_date',
+        ),
+      ),
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      title: title,
+      body: body,
+      payload: payload,
+    );
+
+    print(
+      '========== NOTIFICAÇÃO CADASTRADA DIARIAMENTE: $scheduleDate ---- ID: $id ----- $title PAYLOAD: $payload ==========',
+    );
+  }
+
+  Future<void> cancelAllNotifications() async {
+    await flutterLocalNotificationsPlugin.value!.cancelAll();
+    print(
+      '========== CENCELAR TODAS AS NOTIFICAÇÕES ==========',
+    );
+  }
+
+  Future<void> cancelNotifications(int notificationId) async {
+    await flutterLocalNotificationsPlugin.value!.cancel(id: notificationId);
+    print(
+      '========== CENCELANDO NOTIFICAÇÃO TAREFA CONCLUIDA ==========',
     );
   }
 }

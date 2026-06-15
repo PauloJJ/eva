@@ -103,7 +103,6 @@ class AddTaskWidget {
                         'saturday',
                       ],
                       anytime: true,
-                      schedules: [],
                     );
                     addTaskService.colorIndex.value = 0;
 
@@ -178,7 +177,7 @@ class AddTaskWidget {
                                   style: AppTextStyleTheme.title,
                                 ),
                                 subtitle: Text(
-                                  taskMocModel.schedules.isEmpty
+                                  addTaskService.timer.value == null
                                       ? 'A Qualquer momento'
                                       : 'Receber notificações em horários específicos',
                                 ),
@@ -543,7 +542,10 @@ class AddTaskWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: ChoiceChip(
                             onSelected: (value) {
-                              addTaskService.selectedAndRemoveDay(days[index]);
+                              addTaskService.selectedAndRemoveDay(
+                                day: days[index],
+                                index: index,
+                              );
                             },
                             checkmarkColor: Colors.black,
                             selectedColor: color.secondary,
@@ -652,11 +654,21 @@ class AddTaskWidget {
                       Expanded(
                         child: CupertinoDatePicker(
                           mode: CupertinoDatePickerMode.time,
+                          use24hFormat: true,
                           onDateTimeChanged: (value) {
                             addTaskService.timer.value = value;
                           },
                         ),
                       ),
+
+                      ButtonsComponent.buttonFilled(
+                        title: 'Concluir',
+                        function: () {
+                          Get.back();
+                        },
+                      ),
+
+                      SizedBox(height: 30),
                     ],
                   ),
                 ),

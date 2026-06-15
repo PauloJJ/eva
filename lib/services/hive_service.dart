@@ -73,6 +73,11 @@ class HiveService extends GetxController {
   }
 
   // Pegando Files do App  daqui pra baixo //
+  //
+  //
+  //
+  //
+  //
 
   // Fotos
   updateListPhotos({required List<String> list}) {

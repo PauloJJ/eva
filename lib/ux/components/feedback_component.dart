@@ -207,9 +207,9 @@ class FeedbackComponent {
 
             TextButton(
               onPressed: () {
-                function();
-
                 Get.back();
+                
+                function();
               },
               child: Text('Confirmar'),
             ),

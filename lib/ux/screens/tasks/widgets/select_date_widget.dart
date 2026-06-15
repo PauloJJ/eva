@@ -3,14 +3,15 @@ import 'package:eva/services/task_service.dart';
 import 'package:eva/utils/utils_general.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_instance/get_instance.dart';
-import 'package:get/utils.dart';
 import 'package:intl/intl.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class SelectDateWidget extends StatelessWidget {
   SelectDateWidget({super.key});
 
   final TaskService taskService = Get.find();
+
+  final tz.TZDateTime dateNow = tz.TZDateTime.now(tz.local);
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +39,12 @@ class SelectDateWidget extends StatelessWidget {
             onDateChange: (date) {
               taskService.dateSelect.value = date;
             },
+
             itemBuilder:
                 (context, date, isSelected, isDisabled, isToday, onTap) {
+                  String nowDate = DateFormat('dd/MM/yyyy').format(dateNow);
+                  String dateTimeLine = DateFormat('dd/MM/yyyy').format(date);
+
                   return InkWell(
                     onTap: () {
                       onTap();
@@ -48,7 +53,11 @@ class SelectDateWidget extends StatelessWidget {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        color: isSelected == true ? Color(0xFFDCBFF8) : null,
+                        color: isSelected == true
+                            ? Color(0xFFDCBFF8)
+                            : nowDate == dateTimeLine
+                            ? Color(0xFFDCBFF8).withAlpha(120)
+                            : null,
                         borderRadius: BorderRadius.circular(800),
                       ),
                       child: Column(
@@ -73,7 +82,11 @@ class SelectDateWidget extends StatelessWidget {
                               border: isSelected == true
                                   ? null
                                   : Border.all(color: color.primaryContainer),
-                              color: isSelected == true ? Colors.white : null,
+                              color: isSelected == true
+                                  ? Colors.white
+                                  : nowDate == dateTimeLine
+                                  ? Colors.white.withAlpha(120)
+                                  : null,
                             ),
                             padding: EdgeInsets.all(12),
                             child: SizedBox(
