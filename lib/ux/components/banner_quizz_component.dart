@@ -1,15 +1,23 @@
+import 'package:eva/services/admob_service.dart';
 import 'package:eva/themes/app_text_style_theme.dart';
 import 'package:eva/utils/utils_general.dart';
 import 'package:eva/ux/components/buttons_component.dart';
+import 'package:eva/ux/screens/quiz/quiz_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class BannerQuizzComponent extends StatelessWidget {
-  const BannerQuizzComponent({super.key});
+  BannerQuizzComponent({super.key});
+
+  final AdmobService admobService = Get.find<AdmobService>();
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        admobService.showIntersticialGeneral(true);
+        Get.to(() => QuizScreen());
+      },
       borderRadius: BorderRadius.circular(10),
       child: Container(
         width: size.width,
@@ -23,12 +31,9 @@ class BannerQuizzComponent extends StatelessWidget {
             Positioned(
               bottom: 0,
               right: -20,
-              child: Hero(
-                tag: 'image_police_01',
-                child: Image.asset(
-                  'assets/images/banner_quizz.png',
-                  height: 170,
-                ),
+              child: Image.asset(
+                'assets/images/banner_quizz.png',
+                height: 170,
               ),
             ),
 
@@ -50,7 +55,11 @@ class BannerQuizzComponent extends StatelessWidget {
                         ButtonsComponent.buttonOutline(
                           title: 'Iniciar',
                           height: 35,
-                          function: () {},
+                          function: () {
+                            admobService.showIntersticialGeneral(true);
+
+                            Get.to(() => QuizScreen());
+                          },
                         ),
                       ],
                     ),

@@ -2,6 +2,7 @@ import 'package:eva/firebase_options.dart';
 import 'package:eva/services/actions_service.dart';
 import 'package:eva/services/animations_controller_service.dart';
 import 'package:eva/services/auth_app_service.dart';
+import 'package:eva/services/get_review_user_service.dart';
 import 'package:eva/services/hive_service.dart';
 import 'package:eva/services/task_service.dart';
 import 'package:eva/services/user_service.dart';
@@ -21,7 +22,11 @@ class InjectDependency {
     final TimezoneInfo currentTimeZone =
         await FlutterTimezone.getLocalTimezone();
 
-    final location = tz.getLocation(currentTimeZone.identifier);
+    String identifier = currentTimeZone.identifier == 'GMT'
+        ? 'America/Sao_Paulo'
+        : currentTimeZone.identifier;
+
+    final location = tz.getLocation(identifier);
     tz.setLocalLocation(location);
 
     await Firebase.initializeApp(
@@ -37,5 +42,7 @@ class InjectDependency {
 
     Get.put(AnimationsControllerService());
     Get.put(ActionsService());
+
+    GetReviewUserService.getAvaluation();
   }
 }

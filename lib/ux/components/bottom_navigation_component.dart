@@ -71,7 +71,7 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
                   Icons.security_outlined,
                   size: 30,
                 ),
-                label: 'Tarefa',
+                label: 'Ações',
                 activeIcon: Icon(
                   Icons.security,
                   size: 33,

@@ -5,6 +5,7 @@ class ButtonsComponent {
   static Widget buttonOutline({
     required String title,
     required Function() function,
+    Color? titleColor,
     bool? isLoading,
     IconData? icon,
     Color? color,
@@ -41,6 +42,7 @@ class ButtonsComponent {
                   title,
                   style: TextStyle(
                     fontSize: 18,
+                    color: titleColor,
                   ),
                 ),
               ),
@@ -83,9 +85,7 @@ class ButtonsComponent {
               child: Center(
                 child: Text(
                   title,
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
             ),

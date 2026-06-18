@@ -1,3 +1,4 @@
+import 'package:eva/services/admob_service.dart';
 import 'package:eva/services/scheduling_police_station_woman_service.dart';
 import 'package:eva/themes/app_text_style_theme.dart';
 import 'package:eva/utils/utils_general.dart';
@@ -45,6 +46,9 @@ class ShowConfirmSchedulingWidget extends StatelessWidget {
                   isLoading: isLoading,
                   title: 'Confirmar',
                   function: () {
+                    AdmobService admobService = Get.find<AdmobService>();
+                    admobService.showIntersticialGeneral(true);
+
                     schedulingPoliceStationWomanService.registerScheduling(
                       schedulingTime,
                     );

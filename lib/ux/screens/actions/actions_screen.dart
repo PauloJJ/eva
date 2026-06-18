@@ -1,6 +1,7 @@
 import 'package:eva/services/actions_service.dart';
 import 'package:eva/services/bottom_navigation_service.dart';
 import 'package:eva/themes/app_text_style_theme.dart';
+import 'package:eva/ux/components/banner_quizz_component.dart';
 import 'package:eva/ux/components/buttons_component.dart';
 import 'package:eva/ux/components/card_action_component.dart';
 import 'package:eva/ux/screens/actions/widgets/card_criminal_record_widget.dart';
@@ -77,11 +78,11 @@ class ActionsScreen extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 10),
+                SizedBox(height: 20),
 
-                CardDeamWidget(),
+                BannerQuizzComponent(),
 
-                SizedBox(height: 30),
+               SizedBox(height: 30),
 
                 Text(
                   'Ações de Emergência',
@@ -107,6 +108,12 @@ class ActionsScreen extends StatelessWidget {
                     actionsService.sendLocalizationWhatsapp();
                   },
                 ),
+
+                SizedBox(height: 30),
+
+                CardDeamWidget(),
+
+                SizedBox(height: 50),
               ],
             ),
           ),

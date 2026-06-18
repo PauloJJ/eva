@@ -147,7 +147,7 @@ class _ProfileEditUserScreenState extends State<ProfileEditUserScreen> {
                           ),
                           validator: (value) {
                             if (value == null || value.length < 14) {
-                              return 'Senha inválida';
+                              return 'Número inválido';
                             }
 
                             return null;

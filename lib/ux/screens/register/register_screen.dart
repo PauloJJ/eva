@@ -156,7 +156,7 @@ class RegisterScreen extends StatelessWidget {
                         ),
                         validator: (value) {
                           if (value == null || value.length < 14) {
-                            return 'Senha inválida';
+                            return 'Número inválido';
                           }
 
                           return null;

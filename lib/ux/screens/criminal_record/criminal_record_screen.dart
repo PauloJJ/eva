@@ -1,4 +1,5 @@
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:eva/services/admob_service.dart';
 import 'package:eva/services/criminal_record_service.dart';
 import 'package:eva/themes/app_text_style_theme.dart';
 import 'package:eva/utils/utils_general.dart';
@@ -233,6 +234,11 @@ class CriminalRecordScreen extends StatelessWidget {
                             isLoading: criminalRecordService.isLoading.value,
                             title: 'Assistir Ad e Buscar',
                             function: () {
+                              AdmobService admobService =
+                                  Get.find<AdmobService>();
+
+                              admobService.showIntersticialGeneral(true);
+
                               criminalRecordService.getCriminalRecords(
                                 userCpf: userCpfController.text,
                                 name: nameController.text,

@@ -10,13 +10,19 @@ class NotificationLocalService extends GetxController {
     null,
   );
 
+  Rx<PermissionStatus?> permissionNotification = Rx(null);
+
   @override
-  void onInit() {
+  void onInit() async {
     initNotification();
+
+    permissionNotification.value = permissionNotification.value =
+        await Permission.notification.request();
+
     super.onInit();
   }
 
-  initNotification() async {
+  Future<void> initNotification() async {
     final AndroidInitializationSettings androidInitializationSettings =
         AndroidInitializationSettings('@mipmap/ic_laucher');
 
@@ -40,9 +46,11 @@ class NotificationLocalService extends GetxController {
   }
 
   Future<bool> requestPermission() async {
-    final status = await Permission.notification.request();
+    permissionNotification.value = await Permission.notification.request();
 
-    if (status.isDenied || status.isPermanentlyDenied || status.isRestricted) {
+    if (permissionNotification.value!.isDenied ||
+        permissionNotification.value!.isPermanentlyDenied ||
+        permissionNotification.value!.isRestricted) {
       FeedbackComponent.showConfirmAction(
         information:
             '🔔 A Eva precisa da sua permissão para enviar lembretes. Ative as notificações nas configurações do seu celular para receber avisos importantes no momento certo.',
@@ -108,22 +116,18 @@ class NotificationLocalService extends GetxController {
       payload: payload,
     );
 
-    print(
-      '========== NOTIFICAÇÃO CADASTRADA DIARIAMENTE: $scheduleDate ---- ID: $id ----- $title PAYLOAD: $payload ==========',
-    );
+    // print(
+    //   '========== NOTIFICAÇÃO CADASTRADA DIARIAMENTE: $scheduleDate ---- ID: $id ----- $title PAYLOAD: $payload ==========',
+    // );
   }
 
   Future<void> cancelAllNotifications() async {
     await flutterLocalNotificationsPlugin.value!.cancelAll();
-    print(
-      '========== CENCELAR TODAS AS NOTIFICAÇÕES ==========',
-    );
+    print('========== CENCELAR TODAS AS NOTIFICAÇÕES ==========');
   }
 
   Future<void> cancelNotifications(int notificationId) async {
     await flutterLocalNotificationsPlugin.value!.cancel(id: notificationId);
-    print(
-      '========== CENCELANDO NOTIFICAÇÃO TAREFA CONCLUIDA ==========',
-    );
+    print('========== CENCELANDO NOTIFICAÇÃO TAREFA CONCLUIDA ==========');
   }
 }
