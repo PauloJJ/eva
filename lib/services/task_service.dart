@@ -20,6 +20,8 @@ class TaskService {
   Rx<DateTime> dateSelect = Rx(DateTime.now());
   Rx<List<TaskModel>> listTasks = Rx([]);
 
+  RxBool genereteNotificationsOpenApp = true.obs;
+
   // Modelo: 15/09/2025
   Rx<List<String>> tasksCompleted = Rx([]);
 

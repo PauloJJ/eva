@@ -75,6 +75,8 @@ class RequestPermissionNotification extends StatelessWidget {
                 notificationLocalService.permissionNotification.value =
                     await Permission.notification.request();
 
+                print(notificationLocalService.permissionNotification.value);
+
                 final permissionNotification =
                     notificationLocalService.permissionNotification.value!;
 

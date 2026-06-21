@@ -30,7 +30,7 @@ class UserService extends GetxController {
     final user = FirebaseAuth.instance.authStateChanges();
 
     user.listen(
-      (event) {
+      (event) async {
         if (event == null) {
           userModel.value = null;
         } else {
@@ -39,6 +39,9 @@ class UserService extends GetxController {
 
           TaskService taskService = Get.find<TaskService>();
           taskService.listTasks.bindStream(taskService.streamTasks(event.uid));
+
+          await Future.delayed(Duration(seconds: 5));
+          taskService.registerNotifications();
         }
       },
     );

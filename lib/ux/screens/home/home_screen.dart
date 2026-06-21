@@ -1,5 +1,6 @@
 import 'package:eva/models/user_model.dart';
 import 'package:eva/services/animations_controller_service.dart';
+import 'package:eva/services/notification_local_service.dart';
 import 'package:eva/services/user_service.dart';
 import 'package:eva/themes/app_text_style_theme.dart';
 import 'package:eva/utils/utils_general.dart';
@@ -7,6 +8,8 @@ import 'package:eva/ux/components/support_network_component.dart';
 import 'package:eva/ux/screens/home/widgets/card_sos_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'package:timezone/timezone.dart' as tz;
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -50,6 +53,29 @@ class HomeScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    // ElevatedButton(
+                    //   onPressed: () {
+                    //     NotificationLocalService notificationLocalService =
+                    //         Get.find<NotificationLocalService>();
+
+                    //     notificationLocalService.schedulePeriodicNotifications(
+                    //       title: 'Teste',
+                    //       body: 'Teste',
+                    //       id: 59855555,
+                    //       scheduleDate: tz.TZDateTime(
+                    //         tz.local,
+                    //         2026,
+                    //         6,
+                    //         18,
+                    //         16,
+                    //         57,
+                    //       ),
+                    //       payload: '====',
+                    //     );
+                    //   },
+                    //   child: Text('Teste'),
+                    // ),
+
                     SizedBox(height: 20),
 
                     animationsControllerService.animationHomeFade(

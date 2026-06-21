@@ -116,9 +116,9 @@ class NotificationLocalService extends GetxController {
       payload: payload,
     );
 
-    // print(
-    //   '========== NOTIFICAÇÃO CADASTRADA DIARIAMENTE: $scheduleDate ---- ID: $id ----- $title PAYLOAD: $payload ==========',
-    // );
+    print(
+      '========== NOTIFICAÇÃO CADASTRADA DIARIAMENTE: $scheduleDate ---- ID: $id ----- $title PAYLOAD: $payload ==========',
+    );
   }
 
   Future<void> cancelAllNotifications() async {

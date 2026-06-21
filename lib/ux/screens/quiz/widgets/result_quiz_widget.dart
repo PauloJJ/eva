@@ -2,6 +2,7 @@ import 'package:eva/services/quiz_service.dart';
 import 'package:eva/themes/app_text_style_theme.dart';
 import 'package:eva/utils/utils_general.dart';
 import 'package:eva/ux/components/buttons_component.dart';
+import 'package:eva/ux/screens/quiz/widgets/quiz_answers_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
@@ -207,7 +208,9 @@ class Result extends StatelessWidget {
                                 title: 'Ver Repostas',
                                 color: cardInformationColorTitleAndButton,
                                 titleColor: cardInformationColorTitleAndButton,
-                                function: () {},
+                                function: () {
+                                  Get.to(() => QuizAnswersWidget());
+                                },
                               ),
 
                               SizedBox(height: 10),
