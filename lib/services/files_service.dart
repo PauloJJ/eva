@@ -94,9 +94,6 @@ class FilesService extends GetxController {
   }) async {
     final file = File(path);
 
-    showLoadingComponent();
-    Get.back();
-
     bool fileExist = await file.exists();
 
     if (fileExist == true) {
